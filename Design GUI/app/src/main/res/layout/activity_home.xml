@@ -28,6 +28,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="175dp"
+            android:layout_marginBottom="175dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/virus"
+            />
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
