@@ -17,12 +17,14 @@ class Profile(models.Model):
 # create profile when user is created or updated
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+    if not sender.is_superuser:
+        if created:
+            Profile.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    if not sender.is_superuser:
+        instance.profile.save()
 
 class Interaction(models.Model):
     user1 = models.ForeignKey(User, related_name="user1", on_delete=models.CASCADE)
