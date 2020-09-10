@@ -10,6 +10,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     uuids = models.TextField(max_length=MAX_UUIDS_LEN, blank=True)
     infected = models.BooleanField(default=False)
+    infection_date = models.DateField()
 
     def __str__(self):
         return self.user.__str__()
