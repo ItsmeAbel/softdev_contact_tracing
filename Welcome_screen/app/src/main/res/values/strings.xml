@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Corona application</string>
+    <string name="nav_bar_open"></string>
+    <string name="nav_bar_close"></string>
+</resources>
