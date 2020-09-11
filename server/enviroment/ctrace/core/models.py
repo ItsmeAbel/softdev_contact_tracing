@@ -50,15 +50,16 @@ class User(AbstractUser):
     objects = UserManager()
 
 
-
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 MAX_UUIDS_LEN = 500
+from django.contrib.auth import get_user_model
+User = get_user_model()
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     uuids = models.TextField(max_length=MAX_UUIDS_LEN, blank=True)
     infected = models.BooleanField(default=False)
-    infection_date = models.DateField(default=None)
+    infection_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.user.__str__()
@@ -78,4 +79,4 @@ def save_user_profile(sender, instance, **kwargs):
 class Interaction(models.Model):
     user1 = models.ForeignKey(User, related_name="user1", on_delete=models.CASCADE)
     user2 = models.ForeignKey(User, related_name="user2", on_delete=models.CASCADE)
-    date = models.DateField(default=None)
+    date = models.DateField()
