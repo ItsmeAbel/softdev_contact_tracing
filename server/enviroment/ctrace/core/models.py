@@ -50,8 +50,6 @@ class User(AbstractUser):
     objects = UserManager()
 
 
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 MAX_UUIDS_LEN = 500
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -63,18 +61,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.__str__()
-
-# create profile when user is created or updated
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if not sender.is_superuser:
-        if created:
-            Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    if not sender.is_superuser:
-        instance.profile.save()
 
 class Interaction(models.Model):
     user1 = models.ForeignKey(User, related_name="user1", on_delete=models.CASCADE)
