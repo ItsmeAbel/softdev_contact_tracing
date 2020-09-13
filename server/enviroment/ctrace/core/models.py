@@ -50,6 +50,15 @@ class User(AbstractUser):
     objects = UserManager()
 
 
+
+class Interaction(models.Model):
+    user1 = models.ForeignKey(User, related_name="user1", on_delete=models.CASCADE)
+    user2 = models.ForeignKey(User, related_name="user2", on_delete=models.CASCADE)
+    date = models.DateField()
+    
+    def __str__(self):
+        return "{} and {}".format(self.user1.__str__(),self.user2.__str__())
+
 MAX_UUIDS_LEN = 500
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -62,7 +71,34 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.__str__()
 
-class Interaction(models.Model):
-    user1 = models.ForeignKey(User, related_name="user1", on_delete=models.CASCADE)
-    user2 = models.ForeignKey(User, related_name="user2", on_delete=models.CASCADE)
-    date = models.DateField()
+    def infection_check(self):
+        """
+        Goes through all interactions and checks whether other have
+        interrected with infected user.
+        """
+        # TODO should only first degree contact users be set as infected
+        # or should every possible node in the graph be traversed?
+        if not self.infected: return
+        
+        spread_vector = Interaction.objects.filter(user1=self.user)
+        for contaminated_interaction in spread_vector:
+            infected_user = contaminated_interaction.user2
+            infected_user.infected = True
+        spread_vector = Interaction.objects.filter(user2=self.user)
+        for contaminated_interaction in spread_vector:
+            infected_user = contaminated_interaction.user1
+            infected_user.infected = True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
