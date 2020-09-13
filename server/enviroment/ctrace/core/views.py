@@ -1,11 +1,12 @@
 from django.shortcuts import render
 
 # Create your views here.
+from .models import Profile, Interaction
 from .serializers import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -32,4 +33,33 @@ class UserRecordView(APIView):
             },
             status=status.HTTP_400_BAD_REQUEST
         )
+class StatusView(APIView):
+    """
+    API View to get or update current status of a user.
+    GET request returns the status of a user and if there is an emergency.
+    POST request updates whether user is infected, if there is an emergency
+    as well as loading new interactions into the database
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        print("HERE")
+        user = request.user
+        # get profile
+        profile = Profile.objects.filter(user=user)[0]
+        print(profile)
+
+        return Response(
+                {
+                    "infected": profile.infected,
+                    },
+            status=status.HTTP_200_OK
+        )
+    def post(self, request):
+        user = request.user
+
+        
+        # check that data is correct
+
+
 
