@@ -1,0 +1,1 @@
+ curl localhost:8000/core/register/ -H 'Content-Type: application/json'  -d '{"email":"test@mail.com", "password":"hunter2"}' 
