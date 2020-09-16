@@ -61,8 +61,8 @@ class StatusView(APIView):
         keys = list(data)
         if keys == []:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        if 'set_uuid' in keys:
-            profile.uuids = data['set_uuid']
+        if 'set_identifier' in keys:
+            profile.identifier = data['set_identifier']
             profile.save()
         if 'interactions' in keys:
             # create or update interactions in database
@@ -82,26 +82,19 @@ class StatusView(APIView):
                 profile2 = Profile.objects.filter(user=user2)[0]
                 # first interaction between users
                 if profile2.infected:
-                    profile1.infected = True
-                    profile1.save()
+                    profile1.set_contact()
                 if profile1.infected:
-                    profile2.infected = True
-                    profile2.save()
+                    profile2.set_contact()
                 
                 # look for earlier interaction between users
-                print("QUERYS") 
                 inter_query1 = Interaction.objects.filter(user1=user1, user2=user2)
                 inter_query2 = Interaction.objects.filter(user1=user2, user2=user1)
-                print(inter_query1)
-                print(inter_query2)
                 if len(inter_query1) == 1:
                     inter = inter_query1[0]
-                    inter.date = contact['date']
-                    inter.save()
+                    inter.set_date(date=contact['date'])
                 elif len(inter_query2) == 1:
                     inter = inter_query2[0]
-                    inter.date = contact['date']
-                    inter.save()
+                    inter.set_date(date=contact['date'])
                 else: 
                     # first time interacting, create new entry
                     date = contact['date']
@@ -110,10 +103,7 @@ class StatusView(APIView):
         if 'infected' in keys and data['infected'] == 'True':
             # set user as infected
             # user can only set themselves as positive
-            profile.infected = True
-            profile.infection_date = str(datetime.now()).split(' ')[0]
-            profile.save()
-
+            profile.set_infected()
             # go through all interactions and check for contact with infected
             profile.infection_check()
 

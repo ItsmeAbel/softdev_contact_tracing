@@ -1,8 +1,6 @@
-
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -40,7 +38,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     """User model."""
-
     username = None
     email = models.EmailField(_('email address'), unique=True)
 
@@ -50,11 +47,22 @@ class User(AbstractUser):
     objects = UserManager()
 
 
-
+from datetime import datetime
 class Interaction(models.Model):
     user1 = models.ForeignKey(User, related_name="user1", on_delete=models.CASCADE)
     user2 = models.ForeignKey(User, related_name="user2", on_delete=models.CASCADE)
     date = models.DateField()
+
+    def set_date(self, date=None):
+        """
+        Sets date, if date specified expects format %Y-%m-%d
+        """
+        if date == None:
+            date = datetime.now()
+        else:
+            date = datetime.strptime(date, "%Y-%m-%d")
+        self.date = date
+        self.save()
     
     def __str__(self):
         return "{} and {}".format(self.user1.__str__(),self.user2.__str__())
@@ -62,32 +70,62 @@ class Interaction(models.Model):
 MAX_UUIDS_LEN = 500
 from django.contrib.auth import get_user_model
 User = get_user_model()
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    uuids = models.TextField(max_length=MAX_UUIDS_LEN, blank=True)
+    identifier = models.TextField(max_length=MAX_UUIDS_LEN, blank=True)
     infected = models.BooleanField(default=False)
     infection_date = models.DateField(null=True, blank=True)
+    contact = models.BooleanField(default=False)
+    contact_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.user.__str__()
+    
+    def set_infected(self, date=None):
+        """
+        Sets Profile as being infected.
+        """
+        if date == None:
+            date = datetime.now()
+        else:
+            date = datetime.strptime(date, "%Y-%m-%d")
+        self.infected = True
+        self.infection_date = date
+        self.save()
+
+    def set_contact(self, date=None):
+        """
+        Sets Profile as having had contact with an infected user
+        Sets contact date as current date if not specified
+        """
+        if date == None:
+            date = datetime.now()
+        else:
+            date = datetime.strptime(date, "%Y-%m-%d")
+        self.contact = True
+        self.contact_date = date
+        self.save()
 
     def infection_check(self):
         """
         Goes through all interactions and checks whether other have
-        interrected with infected user.
+        interacted with infected user. Sets the users as having had
+        contact.
         """
-        # TODO should only first degree contact users be set as infected
-        # or should every possible node in the graph be traversed?
         if not self.infected: return
         
         spread_vector = Interaction.objects.filter(user1=self.user)
         for contaminated_interaction in spread_vector:
-            infected_user = contaminated_interaction.user2
-            infected_user.infected = True
+            contact_user = contaminated_interaction.user2
+            contact_user.set_contact()
+
         spread_vector = Interaction.objects.filter(user2=self.user)
         for contaminated_interaction in spread_vector:
-            infected_user = contaminated_interaction.user1
-            infected_user.infected = True
+            contact_user = contaminated_interaction.user1
+            contact_user.set_contact()
+
+    
 
 
 
