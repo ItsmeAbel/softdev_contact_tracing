@@ -11,8 +11,8 @@
             android:title="Change language"
             app:showAsAction="always" />
         <item
-            android:id="@+id/placeholder"
-            android:title="placeholder"
+            android:id="@+id/my_info"
+            android:title="My info"
             app:showAsAction="never" />
         <item
             android:id="@+id/placeholder1"

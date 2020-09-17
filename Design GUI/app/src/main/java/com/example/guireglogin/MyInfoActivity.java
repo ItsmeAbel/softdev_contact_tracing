@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MyInfoActivity extends AppCompatActivity {
+
     private Button change_password;
     private Button save_and_apply;
     private Button done_go_back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
