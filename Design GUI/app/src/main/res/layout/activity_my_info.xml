@@ -1,73 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyInfoActivity"
-    android:orientation="vertical">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#E0BB00"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="MY INFO"
-        app:titleMarginStart="160dp"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Large" />
-
-    <EditText
-        android:id="@+id/current_username"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:background="@drawable/outline"
-        android:padding="15dp"/>
-
-    <EditText
-        android:id="@+id/current_email"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/outline"
-        android:padding="15dp"
-        />
-
-    <Button
-        android:id="@+id/change_password"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
-        android:textColor="#FFF"
-        android:textStyle="bold"
-        android:text="Change Password"
-        android:background="@drawable/button"
-        />
-    <Button
-        android:id="@+id/save_and_apply"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:layout_margin="25dp"
-        android:textColor="#FFF"
-        android:textStyle="bold"
-        android:text="Save Changes"
-        android:background="@drawable/button"
-        />
-    <Button
-        android:id="@+id/done_go_back"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:textColor="#FFF"
-        android:textStyle="bold"
-        android:text="Done"
-        android:background="@drawable/button"
-        />
+    tools:context=".MyInfoActivity">
 
 </LinearLayout>

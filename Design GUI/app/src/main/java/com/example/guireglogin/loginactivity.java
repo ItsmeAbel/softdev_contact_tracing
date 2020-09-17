@@ -10,6 +10,7 @@ import android.widget.Button;
 public class loginactivity extends AppCompatActivity {
 
     private Button login;
+    private Button reg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,12 +26,24 @@ public class loginactivity extends AppCompatActivity {
                 openHomeActivity();
             }
         });
-
+        reg = (Button) findViewById(R.id.gotoreg);
+        reg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openRegActivity();
+            }
+        });
     }
 
     public void openHomeActivity()
     {
         Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void openRegActivity()
+    {
+        Intent intent = new Intent(this, regactivity.class);
         startActivity(intent);
     }
 
