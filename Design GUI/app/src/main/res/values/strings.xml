@@ -13,4 +13,6 @@
     <string name="reg_welcome">Enter your details</string>
     <string name="reg_conf_pass">Confirm your password</string>
     <string name="my_info">My Info</string>
+    <string name="change_pass">Change password</string>
+    <string name="done_key">Done</string>
 </resources>

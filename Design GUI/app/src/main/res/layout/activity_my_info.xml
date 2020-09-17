@@ -15,17 +15,18 @@
         android:id="@+id/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="MY INFO"
+        app:title="@string/my_info"
         app:titleMarginStart="160dp"
         android:elevation="4dp"
         />
+    <!--Hint borde vara blank, för ska hämta akutell information-->
     <EditText
         android:id="@+id/current_username"
         android:layout_gravity="center"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
-        android:hint="your current username here"
+        android:hint=""
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:textColorHint="#E0BB00"
         android:drawablePadding="5dp"
@@ -33,14 +34,29 @@
         android:background="@drawable/outline"
         android:padding="20dp"
         />
+    <!--Hint borde vara blank, för ska hämta akutell information-->
     <EditText
-        android:id="@+id/current_email"
+        android:id="@+id/current_password"
         android:layout_gravity="center"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:hint="currentemail@indeed.com"
-        android:drawableLeft="@drawable/ic_baseline_person_24"
+        android:inputType="textPassword"
+        android:hint=""
+        android:drawableLeft="@drawable/ic_baseline_lock_24"
+        android:textColorHint="#E0BB00"
+        android:drawablePadding="5dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/outline"
+        android:padding="20dp"
+        />
+    <EditText
+        android:id="@+id/confirm_pass"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint=""
+        android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:textColorHint="#E0BB00"
         android:drawablePadding="5dp"
         android:layout_marginTop="20dp"
@@ -52,7 +68,7 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:text="change password"
+        android:text="@string/change_pass"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
 
@@ -60,6 +76,7 @@
         android:textSize="18dp"
         android:background="@drawable/button"
         />
+    <!-- Beror på hur vi väljer att agera mot server, har kvar så länge
     <Button
         android:id="@+id/save_and_apply"
         android:layout_width="300dp"
@@ -71,12 +88,13 @@
         android:textSize="18dp"
         android:background="@drawable/button"
         />
+        -->
     <Button
         android:id="@+id/done_go_back"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:text="Done"
+        android:text="@string/done_key"
         android:layout_marginTop="10dp"
         android:textColor="#FFF"
         android:textSize="18dp"
