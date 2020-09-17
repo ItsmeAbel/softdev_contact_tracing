@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GUI reglogin</string>
+    <string name="title_activity_maps">Karta</string>
+    <string name="Change_language">Byt språk</string>
+    <string name="welcome_key">Välkommen</string>
+    <string name="email_key">Skriv din E-post adress</string>
+    <string name="pass_key">Skriv ditt lösenord</string>
+    <string name="forgot_pass_key">Glömt lösenord?</string>
+    <string name="login_button_key">Logga in</string>
+    <string name="reg_key">Registrera</string>
+    <string name="reg_welcome">Skriv in dina uppgifter</string>
+    <string name="reg_conf_pass">Bekräfta ditt lösenord</string>
+    <string name="my_info">Min sida</string>
+</resources>
