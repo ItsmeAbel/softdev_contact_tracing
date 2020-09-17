@@ -45,7 +45,6 @@ class StatusView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        print("HERE")
         user = request.user
         profile = Profile.objects.filter(user=user)[0]
         return Response(
@@ -64,12 +63,18 @@ class StatusView(APIView):
         if 'set_identifier' in keys:
             profile.identifier = data['set_identifier']
             profile.save()
+        if 'infected' in keys and data['infected'] == 'True':
+            # set user as infected
+            # user can only set themselves as positive
+            profile.set_infected()
+            # go through all interactions and check for contact with infected
+            profile.infection_check()
         if 'interactions' in keys:
             # create or update interactions in database
 
             for contact in data['interactions']:
                 # find user by uuid
-                query = Profile.objects.filter(identifiers=contact["identifier"])
+                query = Profile.objects.filter(identifier=contact["identifier"])
                 # todo check for earlier interactions instead of creating new ones
                 if len(query) > 1:
                     print("WTF")
@@ -100,12 +105,6 @@ class StatusView(APIView):
                     date = contact['date']
                     Interaction.objects.create(user1=user, user2=user2, date=date)
                     
-        if 'infected' in keys and data['infected'] == 'True':
-            # set user as infected
-            # user can only set themselves as positive
-            profile.set_infected()
-            # go through all interactions and check for contact with infected
-            profile.infection_check()
 
         return Response(status=status.HTTP_202_ACCEPTED)
 
