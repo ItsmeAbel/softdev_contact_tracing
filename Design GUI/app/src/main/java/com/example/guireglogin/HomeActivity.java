@@ -69,9 +69,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.my_info:
                 //Toast.makeText(this, "yeet", Toast.LENGTH_LONG).show();
-                //initMyInfo();
-                Intent infoIntent = new Intent(this, MyInfoActivity.class);
-                startActivity(infoIntent);
+
+                initMyInfo();
                 break;
             case R.id.placeholder1:
                 Toast.makeText(this, "placeholder item nr 2", Toast.LENGTH_LONG).show();

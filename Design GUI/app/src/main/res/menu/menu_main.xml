@@ -13,6 +13,7 @@
         <item
             android:id="@+id/my_info"
             android:title="My info"
+            android:icon="@drawable/ic_baseline_face_24"
             app:showAsAction="never" />
         <item
             android:id="@+id/placeholder1"
