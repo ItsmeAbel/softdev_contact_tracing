@@ -1,0 +1,67 @@
+API för server:
+
+login:
+    Ger en token till en användare att authenticera sig med.
+    POST server.com/login/
+    headers:
+        "Content-Type: application/json"
+    content:
+    {
+        "username":"test@mail.com",
+        "password":"hunter2"
+    }
+    response:
+    {
+        "token":"496c00bf637419cfdef3b0dd3ccf28d5ec98a26e" 
+    }
+register:
+    Registerar en ny användare till servern.
+    POST server.com/core/register/
+    headers:
+        "Content-Type: application/json"
+    content:
+    {
+        "username":"test@mail.com",
+        "password":"hunter2"
+    }
+
+status:
+    GET: Ger info om en användares status, nuvarande endast ifall det 
+    har haft kontakt med en infekterad. Kan i framtiden indikera om
+    en kontakt är i en nödsituation.
+
+    POST:
+    Updaterar en användares status. Objecten och arrayen visade är valfria.
+    En användare kan välja t.ex att endast upppdatera sin status om infektion.
+    "infected" - Sätter användarens status som infekterad. kan endast sättas till positiv. En användare kan endast sätta sig som positiv.
+    "identifier" - Ändrar en användares blåtandsadress
+    "interactions" - Lista med alla blåtandsadresser användaren har kommit i kontakt med.
+
+    GET server.com/core/status/
+    headers:
+        "Content-Type: application/json"
+        "Authorization: Token 496c00bf637419cfdef3b0dd3ccf28d5ec98a26e"
+    response:
+        {
+            "contact": "True"
+        }
+
+    POST server.com/core/status/
+    headers:
+        "Content-Type: application/json"
+        "Authorization: Token 496c00bf637419cfdef3b0dd3ccf28d5ec98a26e"
+    
+    content:
+    {
+       "infected": "True",
+       "identifier":"650d2cf4-7022-4f6b-8b5a-12d5bf53ae49",
+       "interactions": [
+            {"identifier":"67a0e06f-3ed7-4b01-97cc-0d7479049ad7",
+             "date":"2018-04-02"
+            },
+            {"identifier":"7d5b35c3-0bc6-40ac-a48b-d9887c373d51",
+             "date":"2018-04-02"
+            },
+       ]
+    }
+        
