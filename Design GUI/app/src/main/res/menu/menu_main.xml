@@ -8,11 +8,12 @@
         <item
             android:id="@+id/change_language"
             android:icon="@drawable/ic_language"
-            android:title="Change language"
+            android:title="@string/Change_language"
             app:showAsAction="always" />
         <item
-            android:id="@+id/placeholder"
-            android:title="placeholder"
+            android:id="@+id/my_info"
+            android:title="@string/my_info"
+            android:icon="@drawable/ic_baseline_face_24"
             app:showAsAction="never" />
         <item
             android:id="@+id/placeholder1"
@@ -20,7 +21,7 @@
             app:showAsAction="never" />
         <item
             android:id="@+id/maps_location"
-            android:title="Maps"
+            android:title="@string/title_activity_maps"
             android:icon="@drawable/ic_outline_map_24"
             app:showAsAction="never"
             />

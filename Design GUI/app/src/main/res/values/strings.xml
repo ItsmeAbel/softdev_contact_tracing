@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">GUI reglogin</string>
-    <string name="nav_bar_open"></string>
-    <string name="nav_bar_close"></string>
+    <string name="nav_bar_open" translatable="false"></string>
+    <string name="nav_bar_close" translatable="false"></string>
     <string name="title_activity_maps">Map</string>
+    <string name="Change_language">Change Language</string>
+    <string name="welcome_key">Welcome</string>
+    <string name="email_key">Enter your e-mail</string>
+    <string name="pass_key">Enter your password</string>
+    <string name="forgot_pass_key">Forgot password?</string>
+    <string name="login_button_key">Login</string>
+    <string name="reg_key">Register</string>
+    <string name="reg_welcome">Enter your details</string>
+    <string name="reg_conf_pass">Confirm your password</string>
+    <string name="my_info">My Info</string>
+    <string name="change_pass">Change password</string>
+    <string name="done_key">Done</string>
 </resources>

@@ -67,15 +67,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.change_language:
                 Toast.makeText(this, "you clicked language", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.placeholder:
-                Toast.makeText(this, "placeholder item nr 1", Toast.LENGTH_LONG).show();
+            case R.id.my_info:
+                //Toast.makeText(this, "yeet", Toast.LENGTH_LONG).show();
+
+                initMyInfo();
                 break;
             case R.id.placeholder1:
                 Toast.makeText(this, "placeholder item nr 2", Toast.LENGTH_LONG).show();
                 break;
             case R.id.maps_location:
                 if(isServiceOK()){
-                    init();
+                    initMaps();
                 }
                 break;
         }
@@ -101,8 +103,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    public void init(){
+    public void initMaps(){
                 Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
                 startActivity(intent);
+    }
+    public void initMyInfo(){
+            Intent infoIntent = new Intent(this, MyInfoActivity.class);
+            startActivity(infoIntent);
     }
 }
