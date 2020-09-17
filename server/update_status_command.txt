@@ -1,1 +1,1 @@
- curl localhost:8000/core/status/ -H 'Content-Type: application/json' -X POST -H 'Authorization: Token 42fcb7fdf0650a8cf72482db281ed2e093d4ae3a' -g -d '{"uuid":"desd","interactions": [{"uuid":"asdsads", "date":"2018-12-20"},{"uuid":"dasasd", "date":"2018-22-1"}]}'
+ curl localhost:8000/core/status/ -H 'Content-Type: application/json' -X POST -H 'Authorization: Token 42fcb7fdf0650a8cf72482db281ed2e093d4ae3a' -g -d '{"identifier":"desd","interactions": [{"identifier":"asdsads", "date":"2018-12-20"},{"identifier":"dasasd", "date":"2018-22-1"}]}'

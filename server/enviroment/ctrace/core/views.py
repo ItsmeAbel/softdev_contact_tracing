@@ -50,7 +50,7 @@ class StatusView(APIView):
         profile = Profile.objects.filter(user=user)[0]
         return Response(
                 {
-                    "infected": profile.infected,
+                    "contact": profile.contact,
                     },
             status=status.HTTP_200_OK
         )
@@ -69,7 +69,7 @@ class StatusView(APIView):
 
             for contact in data['interactions']:
                 # find user by uuid
-                query = Profile.objects.filter(uuids=contact["uuid"])
+                query = Profile.objects.filter(identifiers=contact["identifier"])
                 # todo check for earlier interactions instead of creating new ones
                 if len(query) > 1:
                     print("WTF")
