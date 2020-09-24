@@ -82,6 +82,17 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.__str__()
     
+    def maintenance(self):
+        """
+        Checks dates so that an infection expires after the correct time.
+        """
+        expiration_time = 20 # 20 days for an infection to expire
+        
+        if (self.infection_date - datetime.now()).days >= expiration_time:
+            self.infected = False
+            self.infection_date = None
+            self.save()
+    
     def set_infected(self, date=None):
         """
         Sets Profile as being infected.
