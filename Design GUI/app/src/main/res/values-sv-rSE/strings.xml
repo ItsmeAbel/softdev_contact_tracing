@@ -14,4 +14,10 @@
     <string name="my_info">Min Sida</string>
     <string name="change_pass">Ändra lösenord</string>
     <string name="done_key">Klar</string>
+    <string name="logout_key">Logga Ut</string>
+    <string name="friends">Vänner</string>
+    <string name="add_friend">Sök efter en vän!</string>
+    <string name="loc_error">Kunde inte hämta nuvarande plats</string>
+    <string name="map_complete">Kartan Redo!</string>
+    <string name="change_status">Ändra Status</string>
 </resources>

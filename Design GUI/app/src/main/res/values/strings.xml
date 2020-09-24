@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GUI reglogin</string>
+    <string name="app_name">COVID-19 CT</string>
     <string name="nav_bar_open" translatable="false"></string>
     <string name="nav_bar_close" translatable="false"></string>
     <string name="title_activity_maps">Map</string>
@@ -15,4 +15,10 @@
     <string name="my_info">My Info</string>
     <string name="change_pass">Change password</string>
     <string name="done_key">Done</string>
+    <string name="logout_key">Log Out</string>
+    <string name="friends">Friends</string>
+    <string name="add_friend">Search for a friend!</string>
+    <string name="loc_error">Unable to get current Location</string>
+    <string name="map_complete">Map Complete!</string>
+    <string name="change_status">Change Status</string>
 </resources>
