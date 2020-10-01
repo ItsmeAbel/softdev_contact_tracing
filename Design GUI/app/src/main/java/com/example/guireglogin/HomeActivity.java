@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -78,16 +79,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) { //on click listener för alla knappar i navbaren är ett interface(implements) med ett switchcase för att se vilken knapp som blir tryckt
         switch (item.getItemId()){
             case R.id.change_language:
-                Toast.makeText(this, "you clicked language", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "you clicked language", Toast.LENGTH_LONG).show();
+                initLang();
                 break;
             case R.id.my_info:
-                //Toast.makeText(this, "yeet", Toast.LENGTH_LONG).show();
-
                 initMyInfo();
                 break;
-            //case R.id.placeholder1:
-            //    Toast.makeText(this, "placeholder item nr 2", Toast.LENGTH_LONG).show();
-            //    break;
             case R.id.maps_location:
                 if(isServiceOK()){
                     initMaps();
@@ -141,5 +138,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent friendsIntent = new Intent(this, FriendsActivity.class);
             startActivity(friendsIntent);
     }
-
+    public void initLang(){
+        Intent switchlangIntent = new Intent(this, LanguageActivity.class);
+        startActivity(switchlangIntent);
+    }
 }

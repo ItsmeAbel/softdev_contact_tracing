@@ -7,7 +7,7 @@
             android:title="English"
              />
         <item
-            android:id="id_sv"
+            android:id="@+id/id_sv"
             android:title="Svenska"
              />
 
