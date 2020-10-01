@@ -15,16 +15,30 @@
             android:title="@string/my_info"
             android:icon="@drawable/ic_baseline_face_24"
             app:showAsAction="never" />
+        <!--
         <item
             android:id="@+id/placeholder1"
             android:title="placeholder1"
             app:showAsAction="never" />
+         -->
         <item
             android:id="@+id/maps_location"
             android:title="@string/title_activity_maps"
             android:icon="@drawable/ic_outline_map_24"
-            app:showAsAction="never"
+            app:showAsAction="never"/>
+
+        <item
+            android:id="@+id/friends"
+            android:title="@string/friends"
+            android:icon="@drawable/ic_baseline_people_outline_24"
             />
+
+        <item
+            android:id="@+id/logout"
+            android:title="@string/logout_key"
+            android:icon="@drawable/ic_outline_exit_to_app_24"
+            />
+
 
 
     </group>

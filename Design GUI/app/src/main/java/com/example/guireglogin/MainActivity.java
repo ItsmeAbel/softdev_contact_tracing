@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         img = findViewById(R.id.img);
-        img.animate().alpha(4000).setDuration(0);
+        img.animate().alpha(1000).setDuration(0);
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(dsp);
                 finish();
             }
-        }, 4000);
+        }, 1000);
     }
+
 }

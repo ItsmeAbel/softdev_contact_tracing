@@ -15,7 +15,6 @@
         android:layout_margin="20dp">
 
         <ImageView
-
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:src="@drawable/virus"
@@ -65,6 +64,8 @@
 
         <!-- This might be overkill, ask the group -->
         <TextView
+            android:id="@+id/lostpass"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/forgot_pass_key"

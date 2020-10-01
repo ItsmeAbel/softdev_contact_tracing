@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private NavigationView nav_view;
     //need i explain ^
+    private Button change_status;
 
     private static final String TAG = "HomeActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -49,6 +51,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 R.string.nav_bar_open, R.string.nav_bar_close); // detta gör så att vi får typ en enum för att kunna öppna och stänga nav_baren
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+
+        //Change Status Button
+        change_status = (Button) findViewById(R.id.change_status);
+
+        change_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomeActivity.this, "Status GUI placeholder", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -65,20 +79,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) { //on click listener för alla knappar i navbaren är ett interface(implements) med ett switchcase för att se vilken knapp som blir tryckt
         switch (item.getItemId()){
             case R.id.change_language:
-                Toast.makeText(this, "you clicked language", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "you clicked language", Toast.LENGTH_LONG).show();
+                initLang();
                 break;
             case R.id.my_info:
-                //Toast.makeText(this, "yeet", Toast.LENGTH_LONG).show();
-
                 initMyInfo();
-                break;
-            case R.id.placeholder1:
-                Toast.makeText(this, "placeholder item nr 2", Toast.LENGTH_LONG).show();
                 break;
             case R.id.maps_location:
                 if(isServiceOK()){
                     initMaps();
                 }
+                break;
+            case R.id.logout:
+                Toast.makeText(this, "Logout Tost", Toast.LENGTH_SHORT).show();
+                initLogOut();
+                break;
+            case R.id.friends:
+                initFriends();
                 break;
         }
         return true;
@@ -110,5 +127,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void initMyInfo(){
             Intent infoIntent = new Intent(this, MyInfoActivity.class);
             startActivity(infoIntent);
+    }
+
+    public void initLogOut() {
+            Intent logoutIntent = new Intent(this, loginactivity.class);
+            startActivity(logoutIntent);
+    }
+
+    public void initFriends(){
+            Intent friendsIntent = new Intent(this, FriendsActivity.class);
+            startActivity(friendsIntent);
+    }
+    public void initLang(){
+        Intent switchlangIntent = new Intent(this, LanguageActivity.class);
+        startActivity(switchlangIntent);
     }
 }

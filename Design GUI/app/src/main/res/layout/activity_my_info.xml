@@ -18,9 +18,11 @@
         app:title="@string/my_info"
         app:titleMarginStart="160dp"
         android:elevation="4dp"
+        android:layout_marginBottom="100dp"
         />
     <!--Hint borde vara blank, för ska hämta akutell information-->
     <EditText
+
         android:id="@+id/current_username"
         android:layout_gravity="center"
         android:layout_width="300dp"
