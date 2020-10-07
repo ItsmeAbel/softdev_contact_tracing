@@ -59,12 +59,7 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
         done_go_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                done_go_home.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        backToHome();
-                    }
-                });
+                backToHome();
             }
         });
 
