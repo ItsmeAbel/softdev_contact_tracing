@@ -37,22 +37,22 @@ public class Communication extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                Continue bool = new Continue();
                 if(!response.isSuccessful()){
+                    bool.isFalse();
                     Log.d(LOG_TAG,"Code: " + response.code());
                     return;
                 }
 
                 String content = "";
                 content += "Code: " + response.code() + "\n";
-
+                bool.isTrue();
                 Log.d(LOG_TAG, content);
-
-
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                Log.d(LOG_TAG, "3");
                 Log.d(LOG_TAG, t.getMessage());
             }
         });
