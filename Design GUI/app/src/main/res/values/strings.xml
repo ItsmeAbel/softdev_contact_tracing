@@ -29,6 +29,6 @@
     <string name="emergency">Emergency</string>
     <string name="mild_stauts">Mild Status</string>
     <string name="weaksymptoms">Weak Symptoms</string>
-    <string name="strongsymptoms">Starka Symptoms</string>
+    <string name="strongsymptoms">Strong Symptoms</string>
     <string name="extremesymptoms">Extreme Condition</string>
 </resources>
