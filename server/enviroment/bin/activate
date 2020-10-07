@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/arisu/repos/softdev_contact_tracing/server/enviroment"
+VIRTUAL_ENV="/home/corona/repo/softdev_contact_tracing/server/enviroment"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

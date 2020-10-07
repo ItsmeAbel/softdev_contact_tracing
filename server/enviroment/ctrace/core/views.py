@@ -58,6 +58,8 @@ class StatusView(APIView):
         profile = Profile.objects.filter(user=user)[0]
         data = request.data
         keys = list(data)
+        print("data\n"+str(data))
+        print("keys\n"+str(keys))
         if keys == []:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         if 'set_identifier' in keys:

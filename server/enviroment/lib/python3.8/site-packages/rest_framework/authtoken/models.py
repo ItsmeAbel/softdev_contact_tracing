@@ -32,8 +32,22 @@ class Token(models.Model):
             self.key = self.generate_key()
         return super().save(*args, **kwargs)
 
-    def generate_key(self):
+    @classmethod
+    def generate_key(cls):
         return binascii.hexlify(os.urandom(20)).decode()
 
     def __str__(self):
         return self.key
+
+
+class TokenProxy(Token):
+    """
+    Proxy mapping pk to user pk for use in admin.
+    """
+    @property
+    def pk(self):
+        return self.user.pk
+
+    class Meta:
+        proxy = True
+        verbose_name = "token"

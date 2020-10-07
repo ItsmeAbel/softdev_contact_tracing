@@ -3,7 +3,9 @@ package com.example.guireglogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
@@ -21,7 +23,8 @@ public class FriendsActivity extends AppCompatActivity {
     private FloatingActionButton floating_plus;
 
     //Temp array in place of actual friend list
-    String[] friendArray = {"Person1", "Person2", "Person3", "Person4", "Person5", "Person6"};
+    String[] friendArray;
+
 
 
 
@@ -31,6 +34,7 @@ public class FriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends);
         done_go_home = (Button) findViewById(R.id.done_go_back);
         floating_plus = (FloatingActionButton) findViewById(R.id.floating_plus);
+        addContactsToList();
 
         //Friend list adapters and views
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, friendArray);
@@ -66,7 +70,20 @@ public class FriendsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
+    public void addContactsToList(){
+        try {
+            Cursor phone = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
+            int i = 0;
+            while(phone.moveToNext()){
+                friendArray[i] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                //NrArray[i] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            }
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
