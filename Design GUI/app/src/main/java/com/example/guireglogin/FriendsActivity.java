@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,6 +28,7 @@ import java.util.List;
 public class FriendsActivity extends AppCompatActivity implements AddFriend.AddFriendListener {
 
     private Button done_go_home;
+    private Button emergency;
     private FloatingActionButton floating_plus;
     private ListView listView;
 
@@ -42,7 +44,7 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
 
         //Ladda vänlistan från SharedPreferences
         loadData();
-
+        emergency = (Button) findViewById(R.id.emergency);
         done_go_home = (Button) findViewById(R.id.done_go_back);
         floating_plus = (FloatingActionButton) findViewById(R.id.floating_plus);
         //addContactsToList();
@@ -74,6 +76,14 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
                 addFriend();
                 //Snackbar.make(view, "Snackbar test", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
+            }
+        });
+
+        //Emergency button listener
+        emergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(FriendsActivity.this, "Emergency toast", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -25,4 +25,9 @@
     <string name="new_friend">Lägg till vän</string>
     <string name="cancel">Avbryt</string>
     <string name="ok">Okej</string>
+    <string name="emergency">Nödsituation</string>
+    <string name="mild_stauts">Mild Status</string>
+    <string name="weaksymptoms">Svaga Symptom</string>
+    <string name="strongsymptoms">Starka Symptom</string>
+    <string name="extremesymptoms">Extremt Tillstånd</string>
 </resources>
