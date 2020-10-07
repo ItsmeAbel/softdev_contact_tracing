@@ -45,13 +45,14 @@
     -->
 
         <!-- If you have trouble designing further on this layout, comment over ListView -->
+
         <ListView
             android:id="@+id/friend_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             />
-
+        -->
     <Button
         android:id="@+id/done_go_back"
         android:layout_width="300dp"

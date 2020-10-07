@@ -21,4 +21,9 @@
     <string name="loc_error">Unable to get current Location</string>
     <string name="map_complete">Map Complete!</string>
     <string name="change_status">Change Status</string>
+    <string name="friend_name">Name</string>
+    <string name="friend_number">Number</string>
+    <string name="new_friend">Add Friend</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Okay</string>
 </resources>
