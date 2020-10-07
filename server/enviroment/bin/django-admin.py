@@ -1,4 +1,4 @@
-#!/home/arisu/repos/softdev_contact_tracing/server/enviroment/bin/python3
+#!/home/corona/repo/softdev_contact_tracing/server/enviroment/bin/python3
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
