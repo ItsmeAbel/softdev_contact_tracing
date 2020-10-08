@@ -6,10 +6,12 @@ public class Continue {
 
     public void isTrue(){
         // hoppa till loginscreen
+
         Log.d("Debug", "True");
     }
     public void isFalse(){
         // hoppa till regscreen
+
         Log.d("Debug", "False");
     }
 }
