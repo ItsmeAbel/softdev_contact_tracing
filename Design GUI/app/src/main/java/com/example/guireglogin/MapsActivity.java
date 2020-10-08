@@ -41,7 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker currentLocationMarker;
     double latitude,longitude;
 
-    public static final int REQUEST_LOCATION_CODE = 666;
+    public static final int REQUEST_LOCATION_CODE = 99;
 
 
     @Override
@@ -53,9 +53,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             checkLocationPermission();
         }
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -69,6 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         mMap.setMyLocationEnabled(true);
                     }
+                    buildGoogleApiClient();
                 }
                 else {
                     Toast.makeText(this,"Permission Denied" , Toast.LENGTH_LONG).show();
@@ -85,14 +86,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(this, "Map Complete!", Toast.LENGTH_LONG).show();
         mMap = googleMap;
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
+            Toast.makeText(this, "Map Complete!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -132,30 +134,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Object dataTransfer[] = new Object[2];
         NearbyPlacesData getNearbyPlacesData = new NearbyPlacesData();
 
-        switch(v.getId()) {
-            case R.id.B_hospitals:
-                mMap.clear();
-                String hospital = "hospital";
-                String url = getUrl(latitude, longitude, hospital);
-                dataTransfer[0] = mMap;
-                dataTransfer[1] = url;
+        if(v.getId() == R.id.B_hospitals) {
+            mMap.clear();
+            String hospital = "hospital";
+            String url = getUrl(latitude, longitude, hospital);
+            dataTransfer[0] = mMap;
+            dataTransfer[1] = url;
 
-                getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(MapsActivity.this, "Showing nearby hospitals", Toast.LENGTH_SHORT).show();
-                break;
+            getNearbyPlacesData.execute(dataTransfer);
+            Toast.makeText(MapsActivity.this, "Showing nearby hospitals", Toast.LENGTH_SHORT).show();
+        }
 
-            case R.id.B_pharmacies:
-                mMap.clear();
-                String pharmacy = "pharmacy";
-                url = getUrl(latitude, longitude, pharmacy);
-                dataTransfer[0] = mMap;
-                dataTransfer[1] = url;
+        else if(v.getId() == R.id.B_pharmacies) {
+            mMap.clear();
+            String pharmacy = "pharmacy";
+            String url = getUrl(latitude, longitude, pharmacy);
+            dataTransfer[0] = mMap;
+            dataTransfer[1] = url;
 
-                getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(MapsActivity.this, "Showing nearby pharmacies", Toast.LENGTH_SHORT).show();
-                break;
-
-
+            getNearbyPlacesData.execute(dataTransfer);
+            Toast.makeText(MapsActivity.this, "Showing nearby pharmacies", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -186,9 +184,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
-    public boolean checkLocationPermission()
-    {
+    public boolean checkLocationPermission() {
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)) {
                 ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION },REQUEST_LOCATION_CODE);
