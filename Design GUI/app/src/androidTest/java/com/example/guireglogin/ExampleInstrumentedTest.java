@@ -36,8 +36,6 @@ public class ExampleInstrumentedTest {
                 .perform(click());
         scenario.launch(regactivity.class);
 
-
-
         onView(withId(R.id.regemailusername))
                 .perform(typeText("confirmedworksfromtestfile@gmail.com"));
         closeSoftKeyboard();
@@ -51,9 +49,5 @@ public class ExampleInstrumentedTest {
 
         scenario.launch(loginactivity.class);
         Intents.release();
-
-
-
-
     }
 }
