@@ -20,4 +20,14 @@
     <string name="loc_error">Kunde inte hämta nuvarande plats</string>
     <string name="map_complete">Kartan Redo!</string>
     <string name="change_status">Ändra Status</string>
+    <string name="friend_name">Namn</string>
+    <string name="friend_number">Nummer</string>
+    <string name="new_friend">Lägg till vän</string>
+    <string name="cancel">Avbryt</string>
+    <string name="ok">Okej</string>
+    <string name="emergency">Nödsituation</string>
+    <string name="mild_stauts">Mild Status</string>
+    <string name="weaksymptoms">Svaga Symptom</string>
+    <string name="strongsymptoms">Starka Symptom</string>
+    <string name="extremesymptoms">Extremt Tillstånd</string>
 </resources>

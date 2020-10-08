@@ -1,6 +1,7 @@
 package com.example.guireglogin;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +11,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -31,6 +35,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView nav_view;
     //need i explain ^
     private Button change_status;
+
+
 
     private static final String TAG = "HomeActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -59,9 +65,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         change_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(HomeActivity.this, "Status GUI placeholder", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(HomeActivity.this, "Status GUI placeholder", Toast.LENGTH_SHORT).show();
+                initStatusChange();
             }
         });
+
+        //Close Status button
+        //close_status = (Button) findViewById(R.id.status_close);
+
+
 
     }
 
@@ -141,5 +153,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void initLang(){
         Intent switchlangIntent = new Intent(this, LanguageActivity.class);
         startActivity(switchlangIntent);
+    }
+
+    public void initStatusChange(){
+
+        Intent statusIntent = new Intent(this, ChangeStatus.class);
+        startActivity(statusIntent);
+
     }
 }
