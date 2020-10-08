@@ -1,28 +1,20 @@
 package com.example.guireglogin;
 
-import android.content.Intent;
+import android.content.pm.LauncherApps;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.getIntents;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.Intents.intending;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 
@@ -44,7 +36,24 @@ public class ExampleInstrumentedTest {
                 .perform(click());
         scenario.launch(regactivity.class);
 
+
+
+        onView(withId(R.id.regemailusername))
+                .perform(typeText("confirmedworksfromtestfile@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.regpassword))
+                .perform(typeText("writtenfromTestfile"));
+        closeSoftKeyboard();
+        onView(withId(R.id.regpassword2))
+                .perform(typeText("writtenfromTestfile"));
+        closeSoftKeyboard();
+        onView(withId(R.id.register)).perform(click());
+
+        scenario.launch(loginactivity.class);
         Intents.release();
+
+
+
 
     }
 }
