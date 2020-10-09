@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,7 +32,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+        LocationListener,
+        GoogleMap.OnMarkerClickListener{
 
 
     private GoogleMap mMap;
@@ -40,8 +42,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location lastLocation;
     private Marker currentLocationMarker;
     double latitude,longitude;
+    double goal_latitude, goal_longitude;
 
-    public static final int REQUEST_LOCATION_CODE = 99;
+    private static final int REQUEST_LOCATION_CODE = 99;
+    Object dataTransfer[];
 
 
     @Override
@@ -115,8 +119,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.title("Current Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         currentLocationMarker = mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
+        mMap.setOnMarkerClickListener(this);
 
         if(client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
@@ -141,8 +145,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             dataTransfer[0] = mMap;
             dataTransfer[1] = url;
 
-            getNearbyPlacesData.execute(dataTransfer);
-            Toast.makeText(MapsActivity.this, "Showing nearby hospitals", Toast.LENGTH_SHORT).show();
+            if(client == null){
+                Toast.makeText(MapsActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+
+            else {
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(MapsActivity.this, "Showing nearby hospitals", Toast.LENGTH_SHORT).show();
+
+            }
         }
 
         else if(v.getId() == R.id.B_pharmacies) {
@@ -152,8 +163,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             dataTransfer[0] = mMap;
             dataTransfer[1] = url;
 
-            getNearbyPlacesData.execute(dataTransfer);
-            Toast.makeText(MapsActivity.this, "Showing nearby pharmacies", Toast.LENGTH_SHORT).show();
+            if(client == null){
+                Toast.makeText(MapsActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+
+            else {
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(MapsActivity.this, "Showing nearby pharmacies", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
@@ -170,6 +188,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return googlePlaceUrl.toString();
     }
+
+    private String getDirectionsUrl()
+    {
+        StringBuilder googleDirectionsUrl = new StringBuilder("https://maps.googleapis.com/maps/api/directions/json?");
+        googleDirectionsUrl.append("origin="+latitude+","+longitude);
+        googleDirectionsUrl.append("&destination="+goal_latitude+","+goal_longitude);
+        googleDirectionsUrl.append("&key=AIzaSyDls_AndhEOgEOCgIdXXvgwinUhAn8ez3E");
+
+        return googleDirectionsUrl.toString();
+
+    }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -200,6 +230,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void ShowDirections () {
+        Object dataTransfer[];
+        dataTransfer = new Object[3];
+        String url = getDirectionsUrl();
+        GetDirections getDirectionsData = new GetDirections();
+        dataTransfer[0] = mMap;
+        dataTransfer[1] = url;
+        dataTransfer[2] = new LatLng(goal_latitude, goal_longitude);
+        getDirectionsData.execute(dataTransfer);
+    }
+
+
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -207,5 +250,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        goal_latitude = marker.getPosition().latitude;
+        goal_longitude =  marker.getPosition().longitude;
+        ShowDirections();
+
+        Log.d("end_lat",""+goal_latitude);
+        Log.d("end_lng",""+goal_longitude);
+        return false;
     }
 }
