@@ -21,4 +21,14 @@
     <string name="loc_error">Unable to get current Location</string>
     <string name="map_complete">Map Complete!</string>
     <string name="change_status">Change Status</string>
+    <string name="friend_name">Name</string>
+    <string name="friend_number">Number</string>
+    <string name="new_friend">Add Friend</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Okay</string>
+    <string name="emergency">Emergency</string>
+    <string name="mild_stauts">Mild Status</string>
+    <string name="weaksymptoms">Weak Symptoms</string>
+    <string name="strongsymptoms">Strong Symptoms</string>
+    <string name="extremesymptoms">Extreme Condition</string>
 </resources>

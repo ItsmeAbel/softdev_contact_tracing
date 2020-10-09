@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +20,8 @@
         android:roundIcon="@mipmap/virus"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".FriendsActivity"></activity>
+        <activity android:name=".ChangeStatus"></activity>
+        <activity android:name=".FriendsActivity" />
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -36,7 +39,8 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <activity android:name=".LanguageActivity"/>
+
+        <activity android:name=".LanguageActivity" />
         <activity android:name=".regactivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".loginactivity" />

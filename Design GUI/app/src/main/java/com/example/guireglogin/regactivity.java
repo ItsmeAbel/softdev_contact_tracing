@@ -3,6 +3,7 @@ package com.example.guireglogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,12 +31,14 @@ public class regactivity extends AppCompatActivity {
                 registermethod();
             }
         });
+
     }
 
     public void registermethod(){
         user = username.getText().toString();
         passw = pass.getText().toString();
-        //stringsen från textboxesen som ska skickas till databasen?
-    }
+        Communication RegCommunication = new Communication();
+        RegCommunication.createUser(user, passw);
 
+    }
 }

@@ -42,11 +42,7 @@ public class MainActivity extends AppCompatActivity {
         fields.put("email", email );
         fields.put("password", password );
 
-
         Call<User> call = jsonPlaceHolderApi.createUser(fields);
-
-
-
 
         call.enqueue(new Callback<User>() {
             @Override

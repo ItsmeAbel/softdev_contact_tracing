@@ -1,14 +1,22 @@
 package com.example.guireglogin;
 
-import android.content.Context;
+import android.content.pm.LauncherApps;
 
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -17,10 +25,29 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+    @Rule
+    public ActivityScenarioRule rule = new ActivityScenarioRule<>(loginactivity.class);
     @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.guireglogin", appContext.getPackageName());
+    public void ClickAllTheButtons() throws Exception{
+        Intents.init();
+        ActivityScenario scenario = rule.getScenario();
+
+        onView(withId(R.id.gotoreg))
+                .perform(click());
+        scenario.launch(regactivity.class);
+
+        onView(withId(R.id.regemailusername))
+                .perform(typeText("confirmedworksfromtestfile@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.regpassword))
+                .perform(typeText("writtenfromTestfile"));
+        closeSoftKeyboard();
+        onView(withId(R.id.regpassword2))
+                .perform(typeText("writtenfromTestfile"));
+        closeSoftKeyboard();
+        onView(withId(R.id.register)).perform(click());
+
+        scenario.launch(loginactivity.class);
+        Intents.release();
     }
 }
