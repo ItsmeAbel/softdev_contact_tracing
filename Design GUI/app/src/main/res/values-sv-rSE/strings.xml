@@ -30,4 +30,6 @@
     <string name="weaksymptoms">Svaga Symptom</string>
     <string name="strongsymptoms">Starka Symptom</string>
     <string name="extremesymptoms">Extremt Tillstånd</string>
+    <string name="apply_key">Verkställ</string>
+    <string name="language_settings">Språkinställningar</string>
 </resources>

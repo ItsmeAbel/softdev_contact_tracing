@@ -31,4 +31,6 @@
     <string name="weaksymptoms">Weak Symptoms</string>
     <string name="strongsymptoms">Strong Symptoms</string>
     <string name="extremesymptoms">Extreme Condition</string>
+    <string name="apply_key">Apply</string>
+    <string name="language_settings">Language settings</string>
 </resources>
