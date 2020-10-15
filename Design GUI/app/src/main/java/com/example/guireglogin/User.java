@@ -1,5 +1,7 @@
 package com.example.guireglogin;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
     private String password;
@@ -10,12 +12,7 @@ public class User {
         this.email=email;
         this.password=password;
     }
+    @SerializedName("token")
+    public String token;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }
