@@ -20,7 +20,10 @@ class UserRecordView(APIView):
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
+        email = request.data['email']
+        query = User.objects.filter(email=email)
+        print(query)
+        if serializer.is_valid() and len(query) == 0:
             serializer.create(validated_data=request.data)
             return Response(
                 serializer.data,

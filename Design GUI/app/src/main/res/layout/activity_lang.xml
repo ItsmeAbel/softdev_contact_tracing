@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#E0BB00"
+        android:id="@+id/toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/language_settings"
+        app:titleMarginStart="120dp"
+        android:elevation="4dp"
+        android:layout_marginBottom="100dp"
+        />
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,11 +40,17 @@
 
     <Button
         android:id="@+id/apply_button_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="apply"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="70dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="164dp"
-        android:layout_marginBottom="200dp"/>
+        android:textColor="#FFF"
+        android:text="@string/apply_key"
+        android:textSize="18dp"
+        android:background="@drawable/button"
+        />
+
 
 </RelativeLayout>

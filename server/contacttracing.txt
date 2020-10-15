@@ -1,0 +1,7 @@
+Kontaktspårning:
+    Alla användare registrerar vilken UUID deras blåtandsenheter har.
+    Varje användare kan sätta sig själv som smittad.
+    När spårning är igång skickar klienten vilka UUID den stöter på till servern.
+    Servern kollar ifall dom UUID:en finns hos andra användare och ifall någon är smittad.
+    När en användare sätter sig själv som smittad kollar servern igenom vilka andra den användare har stött på dom senaste 2 veckorna.
+
