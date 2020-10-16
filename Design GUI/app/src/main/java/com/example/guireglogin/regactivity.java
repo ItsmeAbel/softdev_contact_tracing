@@ -65,14 +65,17 @@ public class regactivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
+                    loginFailure();
                     Log.d(LOG_TAG, "Code: " + response.code() + "\n");
                     return;
                 }
+                loginSuccess();
                 Log.d(LOG_TAG, "Code: " + response.code() + "\n");
                 openLoginActivity();
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                unexpectedError();
                 Log.d(LOG_TAG, t.getMessage());
             }
         });
@@ -86,5 +89,15 @@ public class regactivity extends AppCompatActivity {
         startActivity(intent);
         Log.d(LOG_TAG, "2");
         finish();
+    }
+
+    public void loginSuccess(){
+        Toast.makeText(this, "Register successful", Toast.LENGTH_SHORT).show();
+    }
+    public void loginFailure(){
+        Toast.makeText(this, "Username already used", Toast.LENGTH_SHORT).show();
+    }
+    public void unexpectedError(){
+        Toast.makeText(this, "Unexpected error", Toast.LENGTH_SHORT).show();
     }
 }
