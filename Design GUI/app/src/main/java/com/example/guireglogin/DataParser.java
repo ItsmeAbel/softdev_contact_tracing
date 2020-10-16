@@ -81,28 +81,7 @@ public class DataParser {
         return getPlaces(jsonArray);
     }
 
-    private HashMap<String,String> getDuration(JSONArray googleDirectionsJson)
-    {
-        HashMap<String,String> googleDirectionsMap = new HashMap<>();
-        String duration = "";
-        String distance ="";
 
-
-        try {
-
-            duration = googleDirectionsJson.getJSONObject(0).getJSONObject("duration").getString("text");
-            distance = googleDirectionsJson.getJSONObject(0).getJSONObject("distance").getString("text");
-
-            googleDirectionsMap.put("duration" , duration);
-            googleDirectionsMap.put("distance", distance);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        return googleDirectionsMap;
-    }
 
     public String[] parseDirections(String jsonData)
     {

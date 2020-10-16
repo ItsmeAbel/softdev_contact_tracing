@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,7 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -39,8 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private GoogleApiClient client;
-    private LocationRequest locationRequest;
-    private Location lastLocation;
+
     private Marker currentLocationMarker;
     double latitude,longitude;
     double goal_latitude, goal_longitude;
@@ -109,7 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        lastLocation = location;
+        //Location lastLocation = location;
 
         if(currentLocationMarker != null) {
             currentLocationMarker.remove();
@@ -137,10 +135,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onClick(View v) {
 
-        Object dataTransfer[] = new Object[2];
+        Object[] dataTransfer = new Object[2];
         NearbyPlacesData getNearbyPlacesData = new NearbyPlacesData();
 
-        if(v.getId() == R.id.B_hospitals) {
+        if(v.getId() == R.id.hospitals) {
             mMap.clear();
             String hospital = "hospital";
             String url = getUrl(latitude, longitude, hospital);
@@ -159,7 +157,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             checker = 1;
         }
 
-        else if(v.getId() == R.id.B_pharmacies) {
+        else if(v.getId() == R.id.pharmacies) {
             mMap.clear();
             String pharmacy = "pharmacy";
             String url = getUrl(latitude, longitude, pharmacy);
@@ -224,7 +222,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        locationRequest = new LocationRequest();
+        LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(100);
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -251,7 +249,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void ShowDirections () {
-        Object dataTransfer[];
+        Object[] dataTransfer;
         dataTransfer = new Object[3];
         String url = getDirectionsUrl();
         GetDirections getDirectionsData = new GetDirections();
@@ -278,8 +276,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         goal_latitude = marker.getPosition().latitude;
         goal_longitude =  marker.getPosition().longitude;
         ShowDirections();
-        Log.d("end_lat",""+goal_latitude);
-        Log.d("end_lng",""+goal_longitude);
         return false;
     }
 }
