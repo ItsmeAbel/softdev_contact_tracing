@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -43,9 +44,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker currentLocationMarker;
     double latitude,longitude;
     double goal_latitude, goal_longitude;
+    int checker;
 
     private static final int REQUEST_LOCATION_CODE = 99;
-    Object dataTransfer[];
 
 
     @Override
@@ -100,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             Toast.makeText(this, "Map Complete!", Toast.LENGTH_LONG).show();
         }
+
     }
 
     @Override
@@ -154,6 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this, "Showing nearby hospitals", Toast.LENGTH_SHORT).show();
 
             }
+            checker = 1;
         }
 
         else if(v.getId() == R.id.B_pharmacies) {
@@ -170,6 +173,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             else {
                 getNearbyPlacesData.execute(dataTransfer);
                 Toast.makeText(MapsActivity.this, "Showing nearby pharmacies", Toast.LENGTH_SHORT).show();
+            }
+            checker = 2;
+
+        }else if(v.getId() == R.id.clearmap){
+            mMap.clear();
+            if(checker == 1){
+                String hospital = "hospital";
+                String url = getUrl(latitude, longitude, hospital);
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
+                getNearbyPlacesData.execute(dataTransfer);
+            }else if (checker == 2){
+                String pharmacy = "pharmacy";
+                String url = getUrl(latitude, longitude, pharmacy);
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
+                getNearbyPlacesData.execute(dataTransfer);
             }
 
         }
@@ -258,7 +278,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         goal_latitude = marker.getPosition().latitude;
         goal_longitude =  marker.getPosition().longitude;
         ShowDirections();
-
         Log.d("end_lat",""+goal_latitude);
         Log.d("end_lng",""+goal_longitude);
         return false;

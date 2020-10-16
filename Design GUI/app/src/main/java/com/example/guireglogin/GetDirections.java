@@ -2,13 +2,17 @@ package com.example.guireglogin;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GetDirections extends AsyncTask<Object,String,String> {
 
@@ -17,8 +21,9 @@ public class GetDirections extends AsyncTask<Object,String,String> {
     String googleDirectionsData;
     String duration, distance;
     LatLng latLng;
+    private Button button;
 
-    PolylineOptions options;
+    Polyline polyline = null;
     @Override
     protected String doInBackground(Object... objects) {
         mMap = (GoogleMap)objects[0];
@@ -44,26 +49,20 @@ public class GetDirections extends AsyncTask<Object,String,String> {
         DataParser parser = new DataParser();
         directionsList = parser.parseDirections(s);
         displayDirection(directionsList);
-
     }
 
     public void displayDirection(String[] directionsList) {
-
         int count = directionsList.length;
+
         for(int i = 0;i<count;i++)
         {
-            if( options == null){
-
-            }
             PolylineOptions options = new PolylineOptions();
             options.color(Color.BLUE);
             options.width(10);
             options.addAll(PolyUtil.decode(directionsList[i]));
-
-
-            mMap.addPolyline(options);
-
+            polyline = mMap.addPolyline(options);
         }
+
     }
 
 }

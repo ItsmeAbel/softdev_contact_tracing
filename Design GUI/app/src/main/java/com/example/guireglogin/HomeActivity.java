@@ -33,7 +33,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView nav_view;
-    //need i explain ^
     private Button change_status;
 
 
