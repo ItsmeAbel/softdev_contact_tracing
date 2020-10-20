@@ -83,8 +83,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else {
             // Bluetooth is enabled
             ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView()).setChecked(true);
-            Intent eintent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(eintent, BLUETOOTH_REQ_CODE);
         }
     }
 
