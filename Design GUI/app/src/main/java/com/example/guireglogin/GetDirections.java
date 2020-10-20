@@ -10,15 +10,16 @@ import com.google.maps.android.PolyUtil;
 
 import java.io.IOException;
 
+
 public class GetDirections extends AsyncTask<Object,String,String> {
 
     GoogleMap mMap;
     String url;
     String googleDirectionsData;
-    String duration, distance;
     LatLng latLng;
 
-    PolylineOptions options;
+
+
     @Override
     protected String doInBackground(Object... objects) {
         mMap = (GoogleMap)objects[0];
@@ -44,26 +45,15 @@ public class GetDirections extends AsyncTask<Object,String,String> {
         DataParser parser = new DataParser();
         directionsList = parser.parseDirections(s);
         displayDirection(directionsList);
-
     }
 
     public void displayDirection(String[] directionsList) {
 
         int count = directionsList.length;
-        for(int i = 0;i<count;i++)
-        {
-            if( options == null){
-
-            }
-            PolylineOptions options = new PolylineOptions();
-            options.color(Color.BLUE);
-            options.width(10);
-            options.addAll(PolyUtil.decode(directionsList[i]));
-
-
-            mMap.addPolyline(options);
-
+        for (String s : directionsList) {
+            this.mMap.addPolyline(new PolylineOptions().color(Color.BLUE).width(10).addAll(PolyUtil.decode(s)));
         }
+
     }
 
 }

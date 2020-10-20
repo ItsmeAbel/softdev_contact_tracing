@@ -11,24 +11,44 @@
         android:layout_height="match_parent"
         tools:context=".MapsActivity" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:orientation="horizontal"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/B_hospitals"
+                android:id="@+id/hospitals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
                 android:text="Hospitals" />
 
             <Button
-                android:id="@+id/B_pharmacies"
+                android:id="@+id/pharmacies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:text="PHARMACIES" />
+                android:text="pharmacies" />
+
+            <Button
+                android:id="@+id/clearmap"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="clear directions" />
 
         </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
