@@ -36,8 +36,14 @@
         <item
             android:id="@+id/Tracking"
             android:title="@string/Tracking"
-            android:icon="@drawable/ic_baseline_people_outline_24"
+            android:icon="@drawable/ic_tracking_icon"
             />
+        <item
+            android:id="@+id/RTData"
+            android:title="@string/RTData"
+            android:icon="@drawable/ic_dashboard1"
+            />
+
 
         <item
             android:id="@+id/logout"

@@ -33,4 +33,5 @@
     <string name="apply_key">Verkställ</string>
     <string name="language_settings">Språkinställningar</string>
     <string name="Tracking"></string>
+    <string name="RTData">RealtidsData</string>
 </resources>
