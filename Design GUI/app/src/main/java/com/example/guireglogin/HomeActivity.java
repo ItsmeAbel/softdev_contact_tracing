@@ -59,6 +59,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
+
         //Change Status Button
         change_status = (Button) findViewById(R.id.change_status);
 
@@ -69,6 +70,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 initStatusChange();
             }
         });
+
+        startService();
 
         //Close Status button
         //close_status = (Button) findViewById(R.id.status_close);
@@ -113,6 +116,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
     //CHECKS IF THE CORRECT GOOGLE PLAY SERVICES IS INSTALLED
     public boolean isServiceOK(){
         Log.d(TAG,"is service OK: Checking Google servieces Version");
@@ -130,6 +134,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "ERROR: Unresolvable error occurred!", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    public void startService()
+    {
+        Intent intent = new Intent(this, btservice.class);
+        startService(intent);
     }
 
     public void initMaps(){

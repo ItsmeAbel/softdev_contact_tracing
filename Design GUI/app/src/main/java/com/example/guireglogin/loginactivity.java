@@ -82,12 +82,10 @@ public class loginactivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
-                    loginFailure();
                     Log.d(LOG_TAG, "Code: " + response.code() + "\n");
                     return;
                 }
                 User user = response.body();
-                loginSuccess();
                 openHomeActivity();
                 Log.d("Debug", "Body: " + user.token + "\n");
                 Log.d(LOG_TAG, "Code: " + response.code() + "\n");
@@ -95,7 +93,6 @@ public class loginactivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                unexpectedError();
                 Log.d(LOG_TAG, t.getMessage());
             }
         });
@@ -116,13 +113,6 @@ public class loginactivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void loginSuccess(){
-        Toast.makeText(this, "Log in successful", Toast.LENGTH_SHORT).show();
-    }
-    public void loginFailure(){
-        Toast.makeText(this, "User not registered", Toast.LENGTH_SHORT).show();
-    }
-    public void unexpectedError(){
-        Toast.makeText(this, "Unexpected error", Toast.LENGTH_SHORT).show();
-    }
+
+
 }
