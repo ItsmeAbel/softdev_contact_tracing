@@ -31,11 +31,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Button change_status;
 
 
-
+    public Switch onOff;
     private static final String TAG = "HomeActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
     public static final int BLUETOOTH_REQ_CODE = 1;
     final BluetoothAdapter bAdapter = BluetoothAdapter.getDefaultAdapter(); //bluetooth adapter
+    public int toggler = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         nav_view = findViewById(R.id.navigation_view);
         drawer = findViewById(R.id.drawer_layout);
         nav_view.setNavigationItemSelectedListener(this);
+        onOff = (Switch) findViewById(R.id.TS);
         //instansiearar allt som behövs instansiearas
         setSupportActionBar(toolbar);
         //om vi gör setSupportActionBar har vi en helt ny action bar som vi kommer ha mer kontroll över
@@ -72,18 +75,36 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //Close Status button
         //close_status = (Button) findViewById(R.id.status_close);
 
-        //skapar switch för tracking/scanning
-         nav_view.getMenu().findItem(R.id.Tracking)
-                .setActionView(new Switch(this));
 
         //if bluetooth is on, turn on the switch
         if (!bAdapter.isEnabled()) {
             // To set whether switch is on/off use:
-            ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView()).setChecked(false);
+            onOff.setChecked(false);
+            toggler = 2;
         } else {
             // Bluetooth is enabled
-            ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView()).setChecked(true);
+            onOff.setChecked(true);
+            toggler = 1;
         }
+
+
+        onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+
+                    Toast.makeText(HomeActivity.this, "ON", Toast.LENGTH_SHORT).show();
+                    btON();
+                    toggler = 1;
+
+                }else {
+                    Toast.makeText(HomeActivity.this, "OFF", Toast.LENGTH_SHORT).show();
+                    btOFF();
+                    toggler = 2;
+
+                }
+            }
+        });
     }
 
     @Override
@@ -107,10 +128,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 initMyInfo();
                 break;
             case R.id.maps_location:
-                if(isServiceOK()){
-                    initMaps();
+                if (toggler == 1){
+                    if(isServiceOK()){
+                        initMaps();
+                    }
+                    break;
+                }else{
+                    Toast.makeText(this, "You Need to turn Tracking On!", Toast.LENGTH_SHORT).show();
+                    break;
                 }
-                break;
             case R.id.logout:
                 Toast.makeText(this, "Logout Tost", Toast.LENGTH_SHORT).show();
                 initLogOut();
@@ -121,23 +147,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.RTData:
                 initDashboard1();
-                break;
-
-            case R.id.Tracking:
-                ((Switch) item.getActionView()).toggle();
-                ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView())
-                        .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                if(isChecked) {
-                                    Toast.makeText(HomeActivity.this, "ON", Toast.LENGTH_SHORT).show();
-                                    btON();
-                                } else{
-                                    Toast.makeText(HomeActivity.this, "OFF", Toast.LENGTH_SHORT).show();
-                                    btOFF();
-                                }
-                            }
-                        });
                 break;
         }
         return true;
@@ -221,21 +230,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
-            Toast.makeText(HomeActivity.this,"Bluetooth Is ON",Toast.LENGTH_SHORT).show();
-            ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView()).setChecked(true);
+            //Toast.makeText(HomeActivity.this,"Bluetooth Is ON",Toast.LENGTH_SHORT).show();
+            onOff.setChecked(true);
 
         }else{
-            Toast.makeText(HomeActivity.this,"Bluetooth Is OFF",Toast.LENGTH_SHORT).show();
-            ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView()).setChecked(false);
+            if(resultCode == RESULT_CANCELED){
+                //Toast.makeText(HomeActivity.this,"Bluetooth Is OFF",Toast.LENGTH_SHORT).show();
+                onOff.setChecked(false);
+            }
         }
     }
 
     public void btOFF(){
         if (bAdapter.isEnabled()){
             bAdapter.disable(); //disable bluetooth
-            ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView()).setChecked(false);    //make the swicth off
-        }else {
-            ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView()).setChecked(false);
+            onOff.setChecked(false);    //make the swicth off
         }
     }
 
