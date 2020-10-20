@@ -1,13 +1,11 @@
 package com.example.guireglogin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class Real_Time_Data_Dashboard extends AppCompatActivity {
@@ -24,6 +22,10 @@ WebView myWebView;
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         myWebView.loadUrl("https://www.trackcorona.live/");
+        //updaterar sidan
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setDomStorageEnabled(true);
+
 
     }
 }

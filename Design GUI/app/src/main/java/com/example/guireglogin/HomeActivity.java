@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Button change_status;
 
 
-    public Switch onOff;
+    public ToggleButton onOff;
     private static final String TAG = "HomeActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
     public static final int BLUETOOTH_REQ_CODE = 1;
@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         nav_view = findViewById(R.id.navigation_view);
         drawer = findViewById(R.id.drawer_layout);
         nav_view.setNavigationItemSelectedListener(this);
-        onOff = (Switch) findViewById(R.id.TS);
+        onOff = (ToggleButton) findViewById(R.id.TS);
         //instansiearar allt som behövs instansiearas
         setSupportActionBar(toolbar);
         //om vi gör setSupportActionBar har vi en helt ny action bar som vi kommer ha mer kontroll över
@@ -179,22 +179,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void initMaps(){
-                Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
-                startActivity(intent);
+        Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+        startActivity(intent);
     }
     public void initMyInfo(){
-            Intent infoIntent = new Intent(this, MyInfoActivity.class);
-            startActivity(infoIntent);
+        Intent infoIntent = new Intent(this, MyInfoActivity.class);
+        startActivity(infoIntent);
     }
 
     public void initLogOut() {
-            Intent logoutIntent = new Intent(this, loginactivity.class);
-            startActivity(logoutIntent);
+        Intent logoutIntent = new Intent(this, loginactivity.class);
+        startActivity(logoutIntent);
     }
 
     public void initFriends(){
-            Intent friendsIntent = new Intent(this, FriendsActivity.class);
-            startActivity(friendsIntent);
+        Intent friendsIntent = new Intent(this, FriendsActivity.class);
+        startActivity(friendsIntent);
     }
     public void initLang(){
         Intent switchlangIntent = new Intent(this, LanguageActivity.class);
