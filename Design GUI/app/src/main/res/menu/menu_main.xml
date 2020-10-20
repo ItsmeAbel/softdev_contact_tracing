@@ -34,6 +34,12 @@
             />
 
         <item
+            android:id="@+id/Tracking"
+            android:title="@string/Tracking"
+            android:icon="@drawable/ic_baseline_people_outline_24"
+            />
+
+        <item
             android:id="@+id/logout"
             android:title="@string/logout_key"
             android:icon="@drawable/ic_outline_exit_to_app_24"

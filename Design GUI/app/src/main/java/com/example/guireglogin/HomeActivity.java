@@ -1,30 +1,23 @@
 package com.example.guireglogin;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.widget.ToolbarWidgetWrapper;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
-import com.example.guireglogin.R;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.navigation.NavigationView;
@@ -75,7 +68,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //Close Status button
         //close_status = (Button) findViewById(R.id.status_close);
 
+        //skapar switch för tracking/scanning
+         nav_view.getMenu().findItem(R.id.Tracking)
+                .setActionView(new Switch(this));
 
+        // To set whether switch is on/off use:
+        ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView()).setChecked(true);
 
     }
 
@@ -110,6 +108,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.friends:
                 initFriends();
+                break;
+
+            case R.id.Tracking:
+                ((Switch) item.getActionView()).toggle();
+                ((Switch) nav_view.getMenu().findItem(R.id.Tracking).getActionView())
+                        .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if(isChecked) {
+                                    Toast.makeText(HomeActivity.this, "ON", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(HomeActivity.this, "OFF", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                 break;
         }
         return true;
@@ -170,4 +183,5 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         startActivity(statusIntent);
 
     }
+
 }
