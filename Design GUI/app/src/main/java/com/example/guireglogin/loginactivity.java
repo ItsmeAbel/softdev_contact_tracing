@@ -19,6 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
 
 public class loginactivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class loginactivity extends AppCompatActivity {
     private EditText passwordEdit;
     private String user, password;
     private String LOG_TAG = "Debug";
+    public String testToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,8 +88,10 @@ public class loginactivity extends AppCompatActivity {
                     return;
                 }
                 User user = response.body();
+                testToken = "Token " + user.token;
+                getStatus();
                 openHomeActivity();
-                Log.d("Debug", "Body: " + user.token + "\n");
+                Log.d(LOG_TAG, "Body: " + user.token + "\n");
                 Log.d(LOG_TAG, "Code: " + response.code() + "\n");
             }
 
@@ -110,9 +114,42 @@ public class loginactivity extends AppCompatActivity {
     private void openHomeActivity() {
 
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("Token", testToken);
         startActivity(intent);
         finish();
     }
 
+    private void getStatus(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://app.zenofob.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        JsonPlaceHolderAPI jsonPlaceHolderApi = retrofit.create((JsonPlaceHolderAPI.class));
+        Call<statusValues> call;
+        call = jsonPlaceHolderApi.getStatus(testToken);
 
+        call.enqueue(new Callback<statusValues>() {
+            @Override
+            public void onResponse(Call<statusValues> call, Response<statusValues> response) {
+                if (!response.isSuccessful()) {
+                    Log.d(LOG_TAG, testToken);
+                    Log.d(LOG_TAG, "GET Error\n");
+                    Log.d(LOG_TAG, "Code: " + response.code() + "\n");
+                    return;
+                }
+                Log.d(LOG_TAG, "GET Code: " + response.code() + "\n");
+                statusValues GETValues = response.body();
+                Log.d(LOG_TAG, "Success GET\n");
+                Log.d(LOG_TAG, "ResponseID " + GETValues.identifier + "\n");
+                Log.d(LOG_TAG, "ResponseContact " + GETValues.contact + "\n");
+
+            }
+
+            @Override
+            public void onFailure(Call<statusValues> call, Throwable t) {
+                Log.d(LOG_TAG, "Very Error\n");
+                Log.d(LOG_TAG, t.getMessage());
+            }
+        });
+    }
 }

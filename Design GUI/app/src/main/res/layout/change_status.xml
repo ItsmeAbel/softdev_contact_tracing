@@ -17,47 +17,14 @@
         />
 
     <Button
-        android:id="@+id/mild_status"
+        android:id="@+id/sick_status"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom|center"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button"
-        android:text="@string/mild_stauts"
-        android:textColor="#FFF"
-        android:textSize="18dp" />
-    <Button
-        android:id="@+id/weaksymptoms_status"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:text="@string/weaksymptoms"
-        android:textColor="#FFF"
-        android:textSize="18dp" />
-    <Button
-        android:id="@+id/strongsymptoms_status"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:text="@string/strongsymptoms"
-        android:textColor="#FFF"
-        android:textSize="18dp" />
-    <Button
-        android:id="@+id/extreme_status"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:text="@string/extremesymptoms"
+        android:text="Sick"
         android:textColor="#FFF"
         android:textSize="18dp" />
 

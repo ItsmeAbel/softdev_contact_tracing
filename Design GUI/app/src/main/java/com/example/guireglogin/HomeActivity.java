@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -34,7 +35,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private NavigationView nav_view;
     private Button change_status;
-
+    private String token;
 
 
     private static final String TAG = "HomeActivity";
@@ -44,6 +45,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        token = getIntent().getStringExtra("Token");
+        Log.e("Debug","In HomeActvity " + token + "\n");
+
+        //notification();
 
         toolbar = findViewById(R.id.toolbar);
         nav_view = findViewById(R.id.navigation_view);
@@ -142,32 +148,46 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void initMaps(){
-                Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
-                startActivity(intent);
+        Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+        intent.putExtra("Token", token);
+        startActivity(intent);
     }
     public void initMyInfo(){
-            Intent infoIntent = new Intent(this, MyInfoActivity.class);
-            startActivity(infoIntent);
+        Intent infoIntent = new Intent(this, MyInfoActivity.class);
+        infoIntent.putExtra("Token", token);
+        startActivity(infoIntent);
     }
 
     public void initLogOut() {
-            Intent logoutIntent = new Intent(this, loginactivity.class);
-            startActivity(logoutIntent);
+        Intent logoutIntent = new Intent(this, loginactivity.class);
+        startActivity(logoutIntent);
     }
 
     public void initFriends(){
-            Intent friendsIntent = new Intent(this, FriendsActivity.class);
-            startActivity(friendsIntent);
+        Intent friendsIntent = new Intent(this, FriendsActivity.class);
+        friendsIntent.putExtra("Token", token);
+        startActivity(friendsIntent);
     }
     public void initLang(){
         Intent switchlangIntent = new Intent(this, LanguageActivity.class);
+        switchlangIntent.putExtra("Token", token);
         startActivity(switchlangIntent);
     }
 
     public void initStatusChange(){
 
         Intent statusIntent = new Intent(this, ChangeStatus.class);
+        statusIntent.putExtra("Token", token);
         startActivity(statusIntent);
 
     }
+/*
+    private void notification(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle(textTitle)
+                .setContentText(textContent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+    }*/
 }
