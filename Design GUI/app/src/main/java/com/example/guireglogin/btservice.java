@@ -31,7 +31,7 @@ import java.util.UUID;
 
 public class btservice extends Service {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = "BluetoothService";
     private static final int UUID_INDEX = 0;
     private static final ParcelUuid uuidfilter = ParcelUuid.fromString("576a92c8-08a7-11eb-0000-000000000000");

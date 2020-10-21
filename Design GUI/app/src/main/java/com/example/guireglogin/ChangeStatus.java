@@ -25,6 +25,7 @@ public class ChangeStatus extends AppCompatActivity {
     private Button healthyStatus;
     private Button sickStatus;
     private String token;
+    private String UserID;
     private boolean healthBool;
 
     @Override
@@ -32,6 +33,8 @@ public class ChangeStatus extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_status);
 
+        UserID = getIntent().getStringExtra("UserID");
+        Log.e("Debug","In HomeActvity " + UserID + "\n");
         token = getIntent().getStringExtra("Token");
         Log.e("Debug","In Changestatus " + token + "\n");
 
@@ -41,6 +44,8 @@ public class ChangeStatus extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("UserID", UserID);
+                intent.putExtra("Token", token);
                 startActivity(intent);
             }
         });
