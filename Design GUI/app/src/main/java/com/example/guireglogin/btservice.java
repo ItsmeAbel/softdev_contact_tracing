@@ -18,6 +18,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.ParcelUuid;
 import android.util.Log;
@@ -29,15 +31,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class btservice extends Service {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     private static final String TAG = "BluetoothService";
     private static final int UUID_INDEX = 0;
     private static final ParcelUuid uuidfilter = ParcelUuid.fromString("576a92c8-08a7-11eb-0000-000000000000");
     private static final ParcelUuid uuidmask = ParcelUuid.fromString("11111111-1111-1111-0000-00000000");
+    private static ParcelUuid tempuuid = null;
 
-    private int userid;
+    private String UserID;
+    private String MSB = "576a92c8-08a7-11eb-";
+    private String LSB;
+    private String userid;
+    private String token;
     private UUID id;
     private ParcelUuid uuid;
     private AdvertiseSettings aSetting;
@@ -48,8 +61,11 @@ public class btservice extends Service {
     private BluetoothLeScanner mBluetoothLeScanner;
     private BluetoothLeAdvertiser mBluetoothAdvertiser;
     private ArrayList<ScanFilter> filterlista;
-    private ArrayList<Long> addresslist;
+    private ArrayList<String> addresslist;
+    private ArrayList<String> lastchecklist;
     private List<ParcelUuid> uuid_list;
+    private Interactions interactions;
+    private ArrayList<Interactions> interactionsList;
 
     @Override
     public void onCreate() {
@@ -93,12 +109,29 @@ public class btservice extends Service {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mBluetoothAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
         mBluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
+        if(DEBUG){Log.i(TAG,"OnStartCommand!");}
 
-        userid = 124121231; // This should be unik yes yes!
-        id = new UUID(uuidfilter.getUuid().getMostSignificantBits(), userid); //Our unik id combinde with an MSB of ah uuid together with our unik userID
+        lastchecklist = new ArrayList<String>();
+        addresslist = new ArrayList<String>();
 
+
+        Bundle data = intent.getExtras();
+        if(data == null){
+            Log.e(TAG, "Data is null");
+        }
+        else{
+            Log.i(TAG, "Data is not null");
+            userid = (String) data.get("UserID");
+        }
+
+
+        LSB = MSB + userid;
+
+        tempuuid = ParcelUuid.fromString(LSB);
+
+        id = new UUID(uuidfilter.getUuid().getMostSignificantBits(), tempuuid.getUuid().getLeastSignificantBits()); //Our unik id combinde with an MSB of ah uuid together with our unik userID
         filterlista = new ArrayList<ScanFilter>();     //The list with our filters
-        addresslist = new ArrayList<Long>();           //A list were we store all the people we have been nearby
+        addresslist = new ArrayList<String>();           //A list were we store all the people we have been nearby
 
         if(DEBUG){Log.i(TAG, "Buildning settings for advertiser...");}
         //Settings for the advertiser
@@ -132,11 +165,27 @@ public class btservice extends Service {
         filterlista.add(sFilter);
         if(DEBUG){Log.i(TAG, "Buildning DONE!");}
 
+
+
         //Creating our callbacks
         callbacks();
-
         //Start the scanning
-        scanLeDevice();
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(DEBUG){Log.i(TAG,"Stop scan");}
+                stopLEScan();
+                if(DEBUG){Log.i(TAG,"Do magic!");}
+                domagic();
+                if(DEBUG){Log.i(TAG,"Start scan");}
+                scanLeDevice();
+                handler.postDelayed(this, 300000);
+            }
+        };
+        handler.post(runnable);
+
+
         if(DEBUG){Log.i(TAG, "Scanning....");}
 
         return START_STICKY;
@@ -180,7 +229,7 @@ public class btservice extends Service {
                             && !addresslist.contains(uuid.getUuid().getLeastSignificantBits()))
 
                     {
-                        addresslist.add(uuid.getUuid().getLeastSignificantBits());
+                        addresslist.add(String.valueOf(uuid.getUuid().getLeastSignificantBits()));
                         Log.i("id",String.valueOf(uuid.getUuid().getLeastSignificantBits()));
                     }
                 }
@@ -213,7 +262,11 @@ public class btservice extends Service {
         mBluetoothLeScanner.startScan(filterlista, sSettings, scanCallback);
         if (DEBUG) {Log.i(TAG, "Scanning DONE!");}
 
-
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void stopLEScan(){
+        mBluetoothAdvertiser.stopAdvertising(advertiserCallback);
+        mBluetoothLeScanner.stopScan(scanCallback);
     }
 
     //A funcation to got the result since its a list.
@@ -227,6 +280,59 @@ public class btservice extends Service {
     public void onDestroy(){
 
     }
+
+    private void getStatus(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://app.zenofob.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        JsonPlaceHolderAPI jsonPlaceHolderApi = retrofit.create((JsonPlaceHolderAPI.class));
+        Call<statusValues> call;
+        call = jsonPlaceHolderApi.getStatus(token);
+
+        call.enqueue(new Callback<statusValues>() {
+            @Override
+            public void onResponse(Call<statusValues> call, Response<statusValues> response) {
+                if (!response.isSuccessful()) {
+                    Log.d(TAG, token);
+                    Log.d(TAG, "GET Error\n");
+                    Log.d(TAG, "Code: " + response.code() + "\n");
+                    return;
+                }
+                Log.d(TAG, "GET Code: " + response.code() + "\n");
+                statusValues GETValues = response.body();
+                UserID=GETValues.identifier;
+
+            }
+
+            @Override
+            public void onFailure(Call<statusValues> call, Throwable t) {
+                Log.d(TAG, "Very Error\n");
+                Log.d(TAG, t.getMessage());
+            }
+        });
+    }
+    public void domagic(){
+        ArrayList<String> temp = new ArrayList<String>();
+        temp.addAll(addresslist);
+        temp.removeAll(lastchecklist);
+        if(temp != null){
+            lastchecklist.removeAll(lastchecklist);
+            lastchecklist.addAll(addresslist);
+            int i = 0;
+            interactionsList = new ArrayList<Interactions>();
+            while (i < temp.size()){
+
+                String address = null;
+                address = temp.get(i);
+                if(DEBUG){Log.i(TAG,address);}
+                interactions = new Interactions(address);
+                interactionsList.add(interactions);
+                i++;
+            }
+        }
+    }
+
 
     @Nullable
     @Override

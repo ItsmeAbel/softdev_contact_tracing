@@ -65,6 +65,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         token = getIntent().getStringExtra("Token");
         Log.e("Debug","In HomeActvity " + token + "\n");
 
+        startService();
         toolbar = findViewById(R.id.toolbar);
         nav_view = findViewById(R.id.navigation_view);
         drawer = findViewById(R.id.drawer_layout);
@@ -91,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        startService();
+
 
         //Close Status button
         //close_status = (Button) findViewById(R.id.status_close);
@@ -196,6 +197,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void startService()
     {
         Intent intent = new Intent(this, btservice.class);
+        Bundle data = new Bundle();
+        data.putString("UserID", UserID);
+        intent.putExtras(data);
         startService(intent);
     }
 
