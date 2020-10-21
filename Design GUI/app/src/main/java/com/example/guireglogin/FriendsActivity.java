@@ -90,6 +90,7 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
             @Override
             public void onClick(View view) {
                 saveFromEditText(icemsg.getText().toString());
+
             }
         });
 
@@ -129,7 +130,7 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
             {
                 custommessage = icemsg.getText().toString();
                 sendSms(emergency_numbers, custommessage);
-
+                Toast.makeText(FriendsActivity.this, "SMS OK", Toast.LENGTH_SHORT).show();
                 //Toast.makeText(FriendsActivity.this, "Emergency toast", Toast.LENGTH_SHORT).show();
             }
         });
