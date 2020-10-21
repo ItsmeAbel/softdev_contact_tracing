@@ -1,7 +1,11 @@
 package com.example.guireglogin;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +51,7 @@ public class loginactivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
+                NotificationFunc();
                 loginMethod();
             }
         });
@@ -154,5 +159,19 @@ public class loginactivity extends AppCompatActivity {
                 Log.d(LOG_TAG, t.getMessage());
             }
         });
+    }
+
+    private void NotificationFunc(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.virus)
+                .setContentTitle("My notification")
+                .setContentText("Much longer text that cannot fit one line...");
+
+        Intent notificationIntent = new Intent(this, HomeActivity.class);
+        PendingIntent contextIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contextIntent);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
     }
 }
