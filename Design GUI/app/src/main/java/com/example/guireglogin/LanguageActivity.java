@@ -42,13 +42,11 @@ public class LanguageActivity extends AppCompatActivity{
         switch (radioId) {
             case R.id.lang_en:
                 langLoad = "en";
-                Toast.makeText(this, "do these even work?", Toast.LENGTH_SHORT).show();
                 changelang(langLoad);
                 break;
 
             case R.id.lang_sv:
                 langLoad = "sv";
-                Toast.makeText(this, "do these even work?", Toast.LENGTH_SHORT).show();
                 changelang(langLoad);
                 break;
 
@@ -63,7 +61,6 @@ public class LanguageActivity extends AppCompatActivity{
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        Toast.makeText(this, "if this works im a god", Toast.LENGTH_SHORT).show();
         backtohome();
     }
     public void backtohome(){

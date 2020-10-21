@@ -36,10 +36,10 @@ public class loginactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loginactivity);
 
-        login = (Button) findViewById(R.id.login);
+        login = findViewById(R.id.login);
         //Insert corresponding login code before actually calling for openHomeActivity
-        usernameEdit = (EditText) findViewById(R.id.emailusername);
-        passwordEdit = (EditText) findViewById(R.id.password);
+        usernameEdit = findViewById(R.id.emailusername);
+        passwordEdit = findViewById(R.id.password);
         login.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -47,14 +47,14 @@ public class loginactivity extends AppCompatActivity {
                 loginMethod();
             }
         });
-        reg = (Button) findViewById(R.id.gotoreg);
+        reg = findViewById(R.id.gotoreg);
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openRegActivity();
             }
         });
-        lostpass = (TextView) findViewById(R.id.lostpass);
+        lostpass = findViewById(R.id.lostpass);
         lostpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

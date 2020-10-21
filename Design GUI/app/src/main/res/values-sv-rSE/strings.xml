@@ -37,4 +37,5 @@
     <string name="icemsg">Ändra ditt ICE meddelande</string>
     <string name="deletefriends">Radera dina vänner</string>
     <string name="savemsg">Spara ditt ICE meddelande</string>
+    <string name="dont_match">Lösenords fälten matchar inte</string>
 </resources>

@@ -1,39 +1,30 @@
 package com.example.guireglogin;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
-import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.util.ArrayUtils;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
 
 public class FriendsActivity extends AppCompatActivity implements AddFriend.AddFriendListener {
     private final String KEY = "icemsgValue";
@@ -158,22 +149,6 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
         startActivity(intent);
     }
 
-    //Test för att importera kontakter /Philip
-    public void addContactsToList(){
-        try {
-            Cursor phone = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-
-            int i = 0;
-            while(phone.moveToNext()){
-                //friendArray[i] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                //NrArray[i] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            }
-
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void addFriend(){
         AddFriend addfriend = new AddFriend();
         addfriend.show(getSupportFragmentManager(), "Example Dialog");
@@ -228,16 +203,12 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
 
 
         for (int i = 0; i < list.size(); i++) {
-            Log.d("debug", emergency_numbers.get(i).toString());
-            String debugstring = String.valueOf(i);
-            Log.d("debug2", debugstring);
             actualsendSMS(emergency_numbers.get(i).toString(), message);
 
         }
     }
 
-    private void actualsendSMS(String number, String message)
-    {
+    private void actualsendSMS(String number, String message) {
         PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
                 SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
@@ -258,9 +229,6 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
                 temp_number = "";
                 int maxnr = 0;
                 String temp = list.get(i).toString();
-                //Log.d("debug", temp);
-                //String debugstring = String.valueOf(i);
-                //Log.d("debug2", debugstring);
                 for (int j = 0; j < temp.length(); j++) {
                     char c = temp.charAt(j);
                     if (Character.isDigit(c)) {
@@ -269,9 +237,6 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
                     }
                     if (maxnr >= 10) {
                         emergency_numbers.add(i, temp_number);
-                        //Log.d("debug", emergency_numbers.get(i).toString());
-                        //debugstring = String.valueOf(i);
-                        //Log.d("debug2", debugstring);
                     }
                 }
 

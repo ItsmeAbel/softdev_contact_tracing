@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         nav_view = findViewById(R.id.navigation_view);
         drawer = findViewById(R.id.drawer_layout);
         nav_view.setNavigationItemSelectedListener(this);
-        onOff = (ToggleButton) findViewById(R.id.TS);
+        onOff = findViewById(R.id.TS);
         //instansiearar allt som behövs instansiearas
         setSupportActionBar(toolbar);
         //om vi gör setSupportActionBar har vi en helt ny action bar som vi kommer ha mer kontroll över
