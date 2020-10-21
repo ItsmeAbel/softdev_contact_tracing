@@ -30,7 +30,8 @@ public class loginactivity extends AppCompatActivity {
     private EditText passwordEdit;
     private String user, password;
     private String LOG_TAG = "Debug";
-    public String testToken;
+    private String testToken;
+    private String UserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -90,7 +91,6 @@ public class loginactivity extends AppCompatActivity {
                 User user = response.body();
                 testToken = "Token " + user.token;
                 getStatus();
-                openHomeActivity();
                 Log.d(LOG_TAG, "Body: " + user.token + "\n");
                 Log.d(LOG_TAG, "Code: " + response.code() + "\n");
             }
@@ -115,6 +115,7 @@ public class loginactivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("Token", testToken);
+        intent.putExtra("UserID", UserID);
         startActivity(intent);
         finish();
     }
@@ -139,6 +140,8 @@ public class loginactivity extends AppCompatActivity {
                 }
                 Log.d(LOG_TAG, "GET Code: " + response.code() + "\n");
                 statusValues GETValues = response.body();
+                UserID=GETValues.identifier;
+                openHomeActivity();
                 Log.d(LOG_TAG, "Success GET\n");
                 Log.d(LOG_TAG, "ResponseID " + GETValues.identifier + "\n");
                 Log.d(LOG_TAG, "ResponseContact " + GETValues.contact + "\n");

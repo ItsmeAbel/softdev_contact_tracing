@@ -42,6 +42,8 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
     private Button emergency;
     private FloatingActionButton floating_plus;
     private ListView listView;
+    private String token;
+    private String UserID;
 
     private ArrayList<FriendClass> list;
 
@@ -52,6 +54,11 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+
+        UserID = getIntent().getStringExtra("UserID");
+        Log.e("Debug","In HomeActvity " + UserID + "\n");
+        token = getIntent().getStringExtra("Token");
+        Log.e("Debug","In HomeActvity " + token + "\n");
 
         checkForSmsPermission();
 
@@ -146,6 +153,8 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
     //Tillbaka till hemmenyn
     public void backToHome(){
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("UserID", UserID);
+        intent.putExtra("Token", token);
         startActivity(intent);
     }
 

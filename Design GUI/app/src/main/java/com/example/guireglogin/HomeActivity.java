@@ -45,6 +45,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView nav_view;
     private Button change_status;
     private String token;
+    private String UserID;
 
     public ToggleButton onOff;
     private static final String TAG = "HomeActivity";
@@ -59,6 +60,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        UserID = getIntent().getStringExtra("UserID");
+        Log.e("Debug","In HomeActvity " + UserID + "\n");
         token = getIntent().getStringExtra("Token");
         Log.e("Debug","In HomeActvity " + token + "\n");
 
@@ -198,11 +201,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public void initMaps(){
         Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
-        intent.putExtra("Token", token);
         startActivity(intent);
     }
     public void initMyInfo(){
         Intent infoIntent = new Intent(this, MyInfoActivity.class);
+        infoIntent.putExtra("UserID", UserID);
         infoIntent.putExtra("Token", token);
         startActivity(infoIntent);
     }
@@ -214,11 +217,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public void initFriends(){
         Intent friendsIntent = new Intent(this, FriendsActivity.class);
+        friendsIntent.putExtra("UserID", UserID);
         friendsIntent.putExtra("Token", token);
         startActivity(friendsIntent);
     }
     public void initLang(){
         Intent switchlangIntent = new Intent(this, LanguageActivity.class);
+        switchlangIntent.putExtra("UserID", UserID);
         switchlangIntent.putExtra("Token", token);
         startActivity(switchlangIntent);
     }
@@ -226,6 +231,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void initStatusChange(){
 
         Intent statusIntent = new Intent(this, ChangeStatus.class);
+        statusIntent.putExtra("UserID", UserID);
         statusIntent.putExtra("Token", token);
         startActivity(statusIntent);
 

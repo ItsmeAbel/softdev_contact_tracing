@@ -1,6 +1,7 @@
 package com.example.guireglogin;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
