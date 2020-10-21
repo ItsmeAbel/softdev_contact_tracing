@@ -167,11 +167,7 @@ public class btservice extends Service {
                 .build();
         filterlista.add(sFilter);
         if(DEBUG){Log.i(TAG, "Buildning DONE!");}
-        addresslist.add("be11-3d31-afd42276");
-        addresslist.add("be11-3d31-856767f5");
-        addresslist.add("be11-3d31-4ee290b5");
-
-
+        
         //Creating our callbacks
         callbacks();
         //Start the scanning
