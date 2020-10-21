@@ -41,9 +41,9 @@
             android:hint="@string/email_key"
             android:drawableLeft="@drawable/ic_baseline_person_24"
             android:textColorHint="#E0BB00"
+            android:background="@drawable/outline"
             android:drawablePadding="5dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/outline"
             android:padding="20dp"
             />
 

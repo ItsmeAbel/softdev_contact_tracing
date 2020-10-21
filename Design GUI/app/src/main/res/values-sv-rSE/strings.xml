@@ -34,4 +34,7 @@
     <string name="language_settings">Språkinställningar</string>
     <string name="Tracking">Spårning:</string>
     <string name="RTData">RealtidsData</string>
+    <string name="icemsg">Ändra ditt ICE meddelande</string>
+    <string name="deletefriends">Radera dina vänner</string>
+    <string name="savemsg">Spara ditt ICE meddelande</string>
 </resources>

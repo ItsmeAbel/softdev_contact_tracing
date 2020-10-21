@@ -1,20 +1,20 @@
 package com.example.guireglogin;
 
 public class FriendClass {
-    private String friendname;
-    private String friendnumber;
+    private String name;
+    private String number;
 
     public FriendClass(String name, String number){
-        friendname = name;
-        friendnumber = number;
+        this.name = name;
+        this.number = number;
     }
 
     public String getName(){
-        return friendname;
+        return name;
     }
 
     public String getNumber(){
-        return friendnumber;
+        return number;
     }
 
 }
