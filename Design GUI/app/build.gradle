@@ -48,4 +48,7 @@ dependencies {
     //End Retrofit
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
+    //noinspection GradleCompatible
+    implementation "com.android.support:support-compat:28.0.0"
+
 }

@@ -1,6 +1,15 @@
 package com.example.guireglogin;
 
-import android.Manifest;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.ToolbarWidgetWrapper;
+import androidx.core.app.NotificationCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -35,7 +44,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private NavigationView nav_view;
     private Button change_status;
-
+    private String token;
 
     public ToggleButton onOff;
     private static final String TAG = "HomeActivity";
@@ -50,8 +59,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
+        token = getIntent().getStringExtra("Token");
+        Log.e("Debug","In HomeActvity " + token + "\n");
 
         toolbar = findViewById(R.id.toolbar);
         nav_view = findViewById(R.id.navigation_view);
@@ -189,10 +198,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public void initMaps(){
         Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+        intent.putExtra("Token", token);
         startActivity(intent);
     }
     public void initMyInfo(){
         Intent infoIntent = new Intent(this, MyInfoActivity.class);
+        infoIntent.putExtra("Token", token);
         startActivity(infoIntent);
     }
 
@@ -203,19 +214,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public void initFriends(){
         Intent friendsIntent = new Intent(this, FriendsActivity.class);
+        friendsIntent.putExtra("Token", token);
         startActivity(friendsIntent);
     }
     public void initLang(){
         Intent switchlangIntent = new Intent(this, LanguageActivity.class);
+        switchlangIntent.putExtra("Token", token);
         startActivity(switchlangIntent);
     }
 
     public void initStatusChange(){
 
         Intent statusIntent = new Intent(this, ChangeStatus.class);
+        statusIntent.putExtra("Token", token);
         startActivity(statusIntent);
 
     }
+
     public void initDashboard1(){
         Toast.makeText(HomeActivity.this,"To Real-Time Dashboard",Toast.LENGTH_SHORT).show();
         Intent dashboard = new Intent(this,Real_Time_Data_Dashboard.class);
