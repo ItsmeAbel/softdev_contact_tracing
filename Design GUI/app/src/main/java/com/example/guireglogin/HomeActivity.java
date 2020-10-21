@@ -211,6 +211,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(this, btservice.class);
         Bundle data = new Bundle();
         data.putString("UserID", UserID);
+        data.putString("Token", token);
         intent.putExtras(data);
         startService(intent);
     }

@@ -12,8 +12,9 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Interactions {
-    private String identifier;
-    private String date;
+
+    public String identifier;
+    public String date;
 
     
     @RequiresApi(api = Build.VERSION_CODES.N)

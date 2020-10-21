@@ -3,6 +3,7 @@ package com.example.guireglogin;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.le.AdvertiseCallback;
@@ -28,7 +29,9 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -39,16 +42,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class btservice extends Service {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = "BluetoothService";
     private static final int UUID_INDEX = 0;
-    private static final ParcelUuid uuidfilter = ParcelUuid.fromString("576a92c8-08a7-11eb-0000-000000000000");
-    private static final ParcelUuid uuidmask = ParcelUuid.fromString("11111111-1111-1111-0000-00000000");
+    private static final ParcelUuid uuidfilter = ParcelUuid.fromString("00000000-0000-0000-1a2b-3c4d5e6f1a2b");
+    private static final ParcelUuid uuidmask = ParcelUuid.fromString("00000000-0000-0000-1111-111111111111");
     private static ParcelUuid tempuuid = null;
 
     private String UserID;
-    private String MSB = "576a92c8-08a7-11eb-";
-    private String LSB;
+    private String LSB = "-1a2b-3c4d5e6f1a2b";
+    private String MSB;
     private String userid;
     private String token;
     private UUID id;
@@ -64,8 +67,7 @@ public class btservice extends Service {
     private ArrayList<String> addresslist;
     private ArrayList<String> lastchecklist;
     private List<ParcelUuid> uuid_list;
-    private Interactions interactions;
-    private ArrayList<Interactions> interactionsList;
+    private ArrayList<String> interactionsList;
 
     @Override
     public void onCreate() {
@@ -122,14 +124,15 @@ public class btservice extends Service {
         else{
             Log.i(TAG, "Data is not null");
             userid = (String) data.get("UserID");
+            token = (String) data.get("Token");
         }
 
 
-        LSB = MSB + userid;
+        MSB = userid + LSB;
 
-        tempuuid = ParcelUuid.fromString(LSB);
+        tempuuid = ParcelUuid.fromString(MSB);
 
-        id = new UUID(uuidfilter.getUuid().getMostSignificantBits(), tempuuid.getUuid().getLeastSignificantBits()); //Our unik id combinde with an MSB of ah uuid together with our unik userID
+        id = new UUID(tempuuid.getUuid().getMostSignificantBits(), uuidfilter.getUuid().getLeastSignificantBits()); //Our unik id combinde with an MSB of ah uuid together with our unik userID
         filterlista = new ArrayList<ScanFilter>();     //The list with our filters
         addresslist = new ArrayList<String>();           //A list were we store all the people we have been nearby
 
@@ -164,7 +167,9 @@ public class btservice extends Service {
                 .build();
         filterlista.add(sFilter);
         if(DEBUG){Log.i(TAG, "Buildning DONE!");}
-
+        addresslist.add("be11-3d31-afd42276");
+        addresslist.add("be11-3d31-856767f5");
+        addresslist.add("be11-3d31-4ee290b5");
 
 
         //Creating our callbacks
@@ -172,14 +177,17 @@ public class btservice extends Service {
         //Start the scanning
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void run() {
                 if(DEBUG){Log.i(TAG,"Stop scan");}
                 stopLEScan();
                 if(DEBUG){Log.i(TAG,"Do magic!");}
                 domagic();
+                getStatus();
                 if(DEBUG){Log.i(TAG,"Start scan");}
                 scanLeDevice();
+
                 handler.postDelayed(this, 300000);
             }
         };
@@ -225,12 +233,12 @@ public class btservice extends Service {
                 else {
                     get_uuid(result);
                     Log.i(TAG,String.valueOf(result.getRssi()));
-                    if(uuid.getUuid().getMostSignificantBits() == uuidfilter.getUuid().getMostSignificantBits()
-                            && !addresslist.contains(uuid.getUuid().getLeastSignificantBits()))
+                    if(uuid.getUuid().getLeastSignificantBits() == uuidfilter.getUuid().getLeastSignificantBits()
+                            && !addresslist.contains(uuid.getUuid().getMostSignificantBits()))
 
                     {
-                        addresslist.add(String.valueOf(uuid.getUuid().getLeastSignificantBits()));
-                        Log.i("id",String.valueOf(uuid.getUuid().getLeastSignificantBits()));
+                        addresslist.add(String.valueOf(uuid.getUuid().getMostSignificantBits()));
+                        Log.i("id",String.valueOf(uuid.getUuid().getMostSignificantBits()));
                     }
                 }
 
@@ -281,6 +289,27 @@ public class btservice extends Service {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void domagic(){
+        ArrayList<String> temp = new ArrayList<String>();
+        temp.addAll(addresslist);
+        temp.removeAll(lastchecklist);
+        if(temp != null){
+            lastchecklist.removeAll(lastchecklist);
+            lastchecklist.addAll(addresslist);
+            int i = 0;
+            interactionsList = new ArrayList<String>();
+            while (i < temp.size()){
+
+                interactionsList.add(temp.get(i));
+                i++;
+
+            }
+            pushInteractoins();
+
+        }
+    }
+
     private void getStatus(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://app.zenofob.com/")
@@ -294,42 +323,85 @@ public class btservice extends Service {
             @Override
             public void onResponse(Call<statusValues> call, Response<statusValues> response) {
                 if (!response.isSuccessful()) {
-                    Log.d(TAG, token);
-                    Log.d(TAG, "GET Error\n");
+                    Log.d(TAG, "getStatus: Error\n");
                     Log.d(TAG, "Code: " + response.code() + "\n");
                     return;
                 }
-                Log.d(TAG, "GET Code: " + response.code() + "\n");
+                Log.d(TAG, "getStatus: Code: " + response.code() + "\n");
                 statusValues GETValues = response.body();
-                UserID=GETValues.identifier;
+                System.out.println(GETValues.contact);
+                if(GETValues.contact== true){
+                    NotificationFunc();
+                }
 
             }
 
             @Override
             public void onFailure(Call<statusValues> call, Throwable t) {
-                Log.d(TAG, "Very Error\n");
+                Log.d(TAG, "getStatus: Very Error\n");
                 Log.d(TAG, t.getMessage());
             }
         });
     }
-    public void domagic(){
-        ArrayList<String> temp = new ArrayList<String>();
-        temp.addAll(addresslist);
-        temp.removeAll(lastchecklist);
-        if(temp != null){
-            lastchecklist.removeAll(lastchecklist);
-            lastchecklist.addAll(addresslist);
-            int i = 0;
-            interactionsList = new ArrayList<Interactions>();
-            while (i < temp.size()){
 
-                String address = null;
-                address = temp.get(i);
-                if(DEBUG){Log.i(TAG,address);}
-                interactions = new Interactions(address);
-                interactionsList.add(interactions);
-                i++;
+    private void pushInteractoins(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://app.zenofob.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        JsonPlaceHolderAPI jsonPlaceHolderApi = retrofit.create((JsonPlaceHolderAPI.class));
+        Call<setStatus> call;
+
+        call = jsonPlaceHolderApi.pushInteractions(token, interactionsList);
+
+        call.enqueue(new Callback<setStatus>() {
+            @Override
+            public void onResponse(Call<setStatus> call, Response<setStatus> response) {
+                if (!response.isSuccessful()) {
+                    Log.d(TAG, "PushInteractions Error\n");
+                    Log.d(TAG, "Code: " + response.code() + "\n");
+                    return;
+                }
+                Log.d(TAG, "GET Code: " + response.code() + "\n");
+                Log.d(TAG, "In Push Interactions");
+
             }
+
+            @Override
+            public void onFailure(Call<setStatus> call, Throwable t) {
+                Log.d(TAG, "In PushInteractions: Very Error\n");
+                Log.d(TAG, t.getMessage());
+            }
+        });
+    }
+
+    private void NotificationFunc(){
+        notificationChannel();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Channel")
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setContentText("Someone you encountered has been affected by Corona");
+
+        Intent notificationIntent = new Intent(this, HomeActivity.class);
+        PendingIntent contextIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contextIntent);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+    }
+
+    private void notificationChannel(){
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Corona channel";
+            String description = "Corona channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("Channel", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 

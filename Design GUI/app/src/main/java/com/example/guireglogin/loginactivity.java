@@ -53,7 +53,6 @@ public class loginactivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                NotificationFunc();
                 loginMethod();
             }
         });
@@ -101,7 +100,6 @@ public class loginactivity extends AppCompatActivity {
                 Log.d(LOG_TAG, "Body: " + user.token + "\n");
                 Log.d(LOG_TAG, "Code: " + response.code() + "\n");
             }
-
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Log.d(LOG_TAG, t.getMessage());
@@ -148,6 +146,9 @@ public class loginactivity extends AppCompatActivity {
                 Log.d(LOG_TAG, "GET Code: " + response.code() + "\n");
                 statusValues GETValues = response.body();
                 UserID=GETValues.identifier;
+                if(GETValues.contact==true){
+                    NotificationFunc();
+                }
                 openHomeActivity();
                 Log.d(LOG_TAG, "Success GET\n");
                 Log.d(LOG_TAG, "ResponseID " + GETValues.identifier + "\n");
@@ -192,4 +193,5 @@ public class loginactivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
 }

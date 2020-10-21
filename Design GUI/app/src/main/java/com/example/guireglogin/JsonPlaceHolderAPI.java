@@ -1,8 +1,10 @@
 package com.example.guireglogin;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -25,4 +27,9 @@ public interface JsonPlaceHolderAPI {
     @FormUrlEncoded
     @POST("core/status/")
     Call<setStatus> setSickStatus(@Header("Authorization") String token, @FieldMap Map<String, Boolean> fields);
+
+    @FormUrlEncoded
+    @POST("core/status/")
+    Call<setStatus> pushInteractions(@Header("Authorization") String token, @Field("interactions") ArrayList<String> interactionslist);
+
 }
