@@ -38,4 +38,5 @@
     <string name="icemsg">Change your ICE message</string>
     <string name="deletefriends">Delete your friends</string>
     <string name="savemsg">Save your ICE message</string>
+    <string name="dont_match">The password fields do not match</string>
 </resources>

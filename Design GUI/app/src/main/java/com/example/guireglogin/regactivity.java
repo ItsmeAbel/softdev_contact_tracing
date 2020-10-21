@@ -1,7 +1,6 @@
 package com.example.guireglogin;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,9 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class regactivity extends AppCompatActivity {
 
     private Button reg;
-    private EditText username;
-    private EditText pass;
-    private String user, passw;
+    private EditText username, pass, confirmpass;
+    private String user, passw, confpass;
     static final int createUser=1;
     private String LOG_TAG = "Debug";
 
@@ -35,6 +33,7 @@ public class regactivity extends AppCompatActivity {
         setContentView(R.layout.activity_regactivity);
         username = (EditText) findViewById(R.id.regemailusername);
         pass = (EditText) findViewById(R.id.regpassword);
+        confirmpass = (EditText) findViewById(R.id.regpassword2);
         reg = (Button) findViewById(R.id.register);
 
         reg.setOnClickListener(new View.OnClickListener() {
@@ -49,34 +48,41 @@ public class regactivity extends AppCompatActivity {
     private void registermethod(){
         user = username.getText().toString();
         passw = pass.getText().toString();
+        confpass = confirmpass.getText().toString();
+        if(passw == confpass) {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://app.zenofob.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        JsonPlaceHolderAPI jsonPlaceHolderApi = retrofit.create((JsonPlaceHolderAPI.class));
-        Call<User> call;
-        Map<String, String> fields = new HashMap<>();
-        fields.put("email", user);
-        fields.put("password", passw);
-        call = jsonPlaceHolderApi.createUserJson(fields);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://app.zenofob.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            JsonPlaceHolderAPI jsonPlaceHolderApi = retrofit.create((JsonPlaceHolderAPI.class));
+            Call<User> call;
+            Map<String, String> fields = new HashMap<>();
+            fields.put("email", user);
+            fields.put("password", passw);
+            call = jsonPlaceHolderApi.createUserJson(fields);
 
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (!response.isSuccessful()) {
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (!response.isSuccessful()) {
+                        Log.d(LOG_TAG, "Code: " + response.code() + "\n");
+                        return;
+                    }
                     Log.d(LOG_TAG, "Code: " + response.code() + "\n");
-                    return;
+                    openLoginActivity();
                 }
-                Log.d(LOG_TAG, "Code: " + response.code() + "\n");
-                openLoginActivity();
-            }
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.d(LOG_TAG, t.getMessage());
-            }
-        });
 
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Log.d(LOG_TAG, t.getMessage());
+                }
+            });
+        }else{
+            pass.setText("");
+            confirmpass.setText("");
+            Toast.makeText(this, R.string.dont_match, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void openLoginActivity(){
