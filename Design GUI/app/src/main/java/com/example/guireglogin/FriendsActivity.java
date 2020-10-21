@@ -70,7 +70,7 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
         //addContactsToList();
 
         //Friend list adapters and views
-        arrayAdapter = new ArrayAdapter<FriendClass>(this, R.layout.activity_listview, list);
+        arrayAdapter = new ArrayAdapter<FriendClass>(this, R.layout.activity_listview, list.);
 
         listView = findViewById(R.id.friend_list);
         listView.setAdapter(arrayAdapter);
