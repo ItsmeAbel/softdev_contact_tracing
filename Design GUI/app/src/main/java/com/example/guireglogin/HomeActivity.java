@@ -158,9 +158,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 //Toast.makeText(this, "you clicked language", Toast.LENGTH_LONG).show();
                 initLang();
                 break;
-            case R.id.my_info:
-                initMyInfo();
-                break;
             case R.id.maps_location:
                 if (toggler == 1){
                     if(isServiceOK()){
@@ -220,13 +217,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
         startActivity(intent);
     }
-    public void initMyInfo(){
-        Intent infoIntent = new Intent(this, MyInfoActivity.class);
-        infoIntent.putExtra("UserID", UserID);
-        infoIntent.putExtra("Token", token);
-        startActivity(infoIntent);
-    }
-
     public void initLogOut() {
         Intent logoutIntent = new Intent(this, loginactivity.class);
         startActivity(logoutIntent);

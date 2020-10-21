@@ -50,7 +50,6 @@
         <activity android:name=".regactivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".loginactivity" />
-        <activity android:name=".MyInfoActivity" />
         <activity android:name=".Real_Time_Data_Dashboard"/>
         <activity android:name=".MainActivity">
             <intent-filter>

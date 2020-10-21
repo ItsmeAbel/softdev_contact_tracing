@@ -31,7 +31,6 @@ public class loginactivity extends AppCompatActivity {
 
     private Button login;
     private Button reg;
-    private TextView lostpass;
     private EditText usernameEdit;
     private EditText passwordEdit;
     private String user, password;
@@ -44,7 +43,6 @@ public class loginactivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loginactivity);
-
         login = findViewById(R.id.login);
         //Insert corresponding login code before actually calling for openHomeActivity
         usernameEdit = findViewById(R.id.emailusername);
@@ -63,13 +61,7 @@ public class loginactivity extends AppCompatActivity {
                 openRegActivity();
             }
         });
-        lostpass = findViewById(R.id.lostpass);
-        lostpass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                lostPass();
-            }
-        });
+
     }
 
     private void loginMethod(){
