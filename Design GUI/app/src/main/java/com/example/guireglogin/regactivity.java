@@ -49,8 +49,7 @@ public class regactivity extends AppCompatActivity {
         user = username.getText().toString();
         passw = pass.getText().toString();
         confpass = confirmpass.getText().toString();
-        if(passw == confpass) {
-
+        if(passw.equals(confpass)) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://app.zenofob.com/")
                     .addConverterFactory(GsonConverterFactory.create())
