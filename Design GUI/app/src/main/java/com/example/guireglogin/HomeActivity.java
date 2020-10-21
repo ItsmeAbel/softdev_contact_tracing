@@ -11,35 +11,48 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import com.example.guireglogin.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView nav_view;
     private Button change_status;
     private String token;
 
-
+    public ToggleButton onOff;
     private static final String TAG = "HomeActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
+    public static final int BLUETOOTH_REQ_CODE = 1;
+    final BluetoothAdapter bAdapter = BluetoothAdapter.getDefaultAdapter(); //bluetooth adapter
+    public int toggler = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +62,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         token = getIntent().getStringExtra("Token");
         Log.e("Debug","In HomeActvity " + token + "\n");
 
-        //notification();
-
         toolbar = findViewById(R.id.toolbar);
         nav_view = findViewById(R.id.navigation_view);
         drawer = findViewById(R.id.drawer_layout);
         nav_view.setNavigationItemSelectedListener(this);
+        onOff = (ToggleButton) findViewById(R.id.TS);
         //instansiearar allt som behövs instansiearas
         setSupportActionBar(toolbar);
         //om vi gör setSupportActionBar har vi en helt ny action bar som vi kommer ha mer kontroll över
@@ -82,7 +94,35 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //close_status = (Button) findViewById(R.id.status_close);
 
 
+        //if bluetooth is on, turn on the switch
+        if (!bAdapter.isEnabled()) {
+            // To set whether switch is on/off use:
+            onOff.setChecked(false);
+            toggler = 2;
+        } else {
+            // Bluetooth is enabled
+            onOff.setChecked(true);
+            toggler = 1;
+        }
 
+
+        onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+
+                    Toast.makeText(HomeActivity.this, "ON", Toast.LENGTH_SHORT).show();
+                    btON();
+                    toggler = 1;
+
+                }else {
+                    Toast.makeText(HomeActivity.this, "OFF", Toast.LENGTH_SHORT).show();
+                    btOFF();
+                    toggler = 2;
+
+                }
+            }
+        });
     }
 
     @Override
@@ -106,16 +146,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 initMyInfo();
                 break;
             case R.id.maps_location:
-                if(isServiceOK()){
-                    initMaps();
+                if (toggler == 1){
+                    if(isServiceOK()){
+                        initMaps();
+                    }
+                    break;
+                }else{
+                    Toast.makeText(this, "You Need to turn Tracking On!", Toast.LENGTH_SHORT).show();
+                    break;
                 }
-                break;
             case R.id.logout:
                 Toast.makeText(this, "Logout Tost", Toast.LENGTH_SHORT).show();
                 initLogOut();
                 break;
+
             case R.id.friends:
                 initFriends();
+                break;
+            case R.id.RTData:
+                initDashboard1();
                 break;
         }
         return true;
@@ -181,13 +230,46 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         startActivity(statusIntent);
 
     }
-/*
-    private void notification(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(textTitle)
-                .setContentText(textContent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-    }*/
+    public void initDashboard1(){
+        Toast.makeText(HomeActivity.this,"To Real-Time Dashboard",Toast.LENGTH_SHORT).show();
+        Intent dashboard = new Intent(this,Real_Time_Data_Dashboard.class);
+        startActivity(dashboard);
+
+    }
+    public void btON(){
+        if(bAdapter == null)
+        {
+            Toast.makeText(HomeActivity.this,"Bluetooth Not Supported",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            if(!bAdapter.isEnabled()){
+                Intent eintent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(eintent, BLUETOOTH_REQ_CODE);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            //Toast.makeText(HomeActivity.this,"Bluetooth Is ON",Toast.LENGTH_SHORT).show();
+            onOff.setChecked(true);
+
+        }else{
+            if(resultCode == RESULT_CANCELED){
+                //Toast.makeText(HomeActivity.this,"Bluetooth Is OFF",Toast.LENGTH_SHORT).show();
+                onOff.setChecked(false);
+            }
+        }
+    }
+
+    public void btOFF(){
+        if (bAdapter.isEnabled()){
+            bAdapter.disable(); //disable bluetooth
+            onOff.setChecked(false);    //make the swicth off
+        }
+    }
+
 }

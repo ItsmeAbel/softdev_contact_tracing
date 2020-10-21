@@ -33,4 +33,9 @@
     <string name="extremesymptoms">Extreme Condition</string>
     <string name="apply_key">Apply</string>
     <string name="language_settings">Language settings</string>
+    <string name="Tracking">Tracking:</string>
+    <string name="RTData">Real-Time Data</string>
+    <string name="icemsg">Change your ICE message</string>
+    <string name="deletefriends">Delete your friends</string>
+    <string name="savemsg">Save your ICE message</string>
 </resources>

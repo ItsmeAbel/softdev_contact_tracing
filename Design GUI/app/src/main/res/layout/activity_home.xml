@@ -31,6 +31,30 @@
             android:layout_height="match_parent"
             >
 
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|right"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="180dp"
+                android:text="@string/Tracking"
+                android:textColor="#E0BB00"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <ToggleButton
+                android:id="@+id/TS"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="top|right"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="100dp"
+                android:background="@drawable/button"
+                android:text="@string/change_status"
+                android:textColor="#FFF"
+                android:textSize="18dp" />
+
+
             <Button
                 android:id="@+id/change_status"
                 android:layout_width="300dp"
@@ -42,6 +66,10 @@
                 android:text="@string/change_status"
                 android:textColor="#FFF"
                 android:textSize="18dp" />
+
+
+
+
         </FrameLayout>
 
         <ImageView
@@ -53,6 +81,7 @@
             android:layout_marginLeft="100dp"
             android:src="@drawable/virus"
             />
+
 
     </RelativeLayout>
 

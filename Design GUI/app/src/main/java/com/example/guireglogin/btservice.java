@@ -21,7 +21,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.ParcelUuid;
 import android.util.Log;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -63,6 +62,7 @@ public class btservice extends Service {
             startForeground(1, new Notification());
     }
 
+    //Creating a notification channel and start it in the foreground so the user knows when its tracking.
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startMyOwnForeground(){
         String NOTIFICATION_CHANNEL_ID = "application 7.0";
@@ -94,14 +94,11 @@ public class btservice extends Service {
         mBluetoothAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
         mBluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
 
-        userid = 124121231;
-        id = new UUID(uuidfilter.getUuid().getMostSignificantBits(), userid);
+        userid = 124121231; // This should be unik yes yes!
+        id = new UUID(uuidfilter.getUuid().getMostSignificantBits(), userid); //Our unik id combinde with an MSB of ah uuid together with our unik userID
 
-        Log.e(TAG, String.valueOf(id));
-        Log.e(TAG, String.valueOf(id.getLeastSignificantBits()));
-
-        filterlista = new ArrayList<ScanFilter>();
-        addresslist = new ArrayList<Long>();
+        filterlista = new ArrayList<ScanFilter>();     //The list with our filters
+        addresslist = new ArrayList<Long>();           //A list were we store all the people we have been nearby
 
         if(DEBUG){Log.i(TAG, "Buildning settings for advertiser...");}
         //Settings for the advertiser
@@ -135,9 +132,10 @@ public class btservice extends Service {
         filterlista.add(sFilter);
         if(DEBUG){Log.i(TAG, "Buildning DONE!");}
 
+        //Creating our callbacks
         callbacks();
 
-
+        //Start the scanning
         scanLeDevice();
         if(DEBUG){Log.i(TAG, "Scanning....");}
 
@@ -147,7 +145,7 @@ public class btservice extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void callbacks(){
-
+        //Start of advertiser callbacks
         advertiserCallback = new AdvertiseCallback() {
             @Override
             public void onStartSuccess(AdvertiseSettings settingsInEffect) {
@@ -164,7 +162,7 @@ public class btservice extends Service {
         };
 
         scanCallback = new ScanCallback() {
-
+            //scanning callbacks
             @Override
             public void onScanResult(int callbackType, final ScanResult result) {
                 super.onScanResult(callbackType, result);
@@ -188,7 +186,6 @@ public class btservice extends Service {
                 }
 
             }
-
             @Override
             public void onBatchScanResults(List<ScanResult> results) {
                 super.onBatchScanResults(results);
@@ -207,15 +204,19 @@ public class btservice extends Service {
     private void scanLeDevice(){
 
         if(DEBUG){Log.i(TAG, "Advertising....");}
+        //Creating the advertiser
         mBluetoothAdvertiser.startAdvertising(aSetting,aData, advertiserCallback);
         if(DEBUG){Log.i(TAG, "Advertising DONE");}
+
         if (DEBUG) {Log.i(TAG, "Scanning...");}
+        //Start the scan
         mBluetoothLeScanner.startScan(filterlista, sSettings, scanCallback);
         if (DEBUG) {Log.i(TAG, "Scanning DONE!");}
-        if (DEBUG) {Log.i(TAG, "Scanning again...");}
+
 
     }
 
+    //A funcation to got the result since its a list.
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void get_uuid(final ScanResult result){
         uuid_list = result.getScanRecord().getServiceUuids();
