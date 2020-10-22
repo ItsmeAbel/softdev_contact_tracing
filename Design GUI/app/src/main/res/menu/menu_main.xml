@@ -28,6 +28,13 @@
             android:title="@string/friends"
             android:icon="@drawable/ic_baseline_people_outline_24"
             />
+
+        <item
+            android:id="@+id/Interactions"
+            android:title="@string/Interactdash"
+            android:icon="@drawable/ic_outline_compare_arrows_24"
+            />
+
         <item
             android:id="@+id/RTData"
             android:title="@string/RTData"

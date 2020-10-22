@@ -39,4 +39,6 @@
     <string name="savemsg">Spara ditt ICE meddelande</string>
     <string name="dont_match">Lösenords fälten matchar inte</string>
     <string name="sick_status">Svårt sjuk</string>
+    <string name="Interactdash">Interaktioner</string>
+    <string name="interactppl">Antal personer du har interagerat med:</string>
 </resources>
