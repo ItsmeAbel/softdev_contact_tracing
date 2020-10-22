@@ -347,6 +347,9 @@ public class btservice extends Service {
                 Log.d(TAG, "getStatus: Code: " + response.code() + "\n");
                 statusValues GETValues = response.body();
                 System.out.println("I am positive " + GETValues.contact);
+                System.out.println("Confirmed: " + GETValues.count_confirmed);
+                System.out.println("Unconfirmed: " + GETValues.count_unconfirmed);
+                System.out.println("Interactions: " + GETValues.total_interactions);
                 if(GETValues.contact== true){
                     NotificationFunc();
                 }
@@ -354,7 +357,6 @@ public class btservice extends Service {
                 if(GETValues.unconfirmed_contact== true){
                     NotificationFunc2();
                 }
-
             }
 
             @Override
@@ -385,7 +387,6 @@ public class btservice extends Service {
                 }
                 Log.d(TAG, "GET Code: " + response.code() + "\n");
                 Log.d(TAG, "In Push Interactions");
-
             }
 
             @Override

@@ -15,4 +15,6 @@ public class setStatus {
 
     @SerializedName("interactions")
     public ArrayList<Interactions> interactions;
+
+
 }
