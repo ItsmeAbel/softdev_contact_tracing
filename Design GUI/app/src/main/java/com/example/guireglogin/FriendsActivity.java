@@ -174,6 +174,8 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
 
         //För att gå förbi visual error atm, starta om FriendActivity
         Intent intent = new Intent(this, FriendsActivity.class);
+        intent.putExtra("UserID", UserID);
+        intent.putExtra("Token", token);
         startActivity(intent);
 
 
@@ -276,7 +278,10 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
         list = null;
         saveData();
 
-        Intent intent = new Intent(this, FriendsActivity.class);
+        Intent intent = new Intent(FriendsActivity.this, FriendsActivity.class);
+        intent.putExtra("UserID", UserID);
+        intent.putExtra("Token", token);
+
         startActivity(intent);
 
     }
