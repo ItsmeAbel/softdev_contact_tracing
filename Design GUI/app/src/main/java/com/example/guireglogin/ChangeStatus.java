@@ -90,6 +90,36 @@ public class ChangeStatus extends AppCompatActivity {
         });
     }
 
+    private void setSymptomious(String token){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://app.zenofob.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        JsonPlaceHolderAPI jsonPlaceHolderApi = retrofit.create((JsonPlaceHolderAPI.class));
+        Call<setStatus> call;
+        Map<String, Boolean> fields = new HashMap<>();
+        fields.put("unconfirmed_infected", true);
+
+        call = jsonPlaceHolderApi.setSickStatus(token, fields);
+
+        call.enqueue(new Callback<setStatus>() {
+            @Override
+            public void onResponse(Call<setStatus> call, Response<setStatus> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("debug", "Code: " + response.code() + "\n");
+                    return;
+                }
+                Log.d("debug", "Code: " + response.code() + "\n");
+                Log.d("debug", "Success");
+
+            }
+            @Override
+            public void onFailure(Call<setStatus> call, Throwable t) {
+                Log.d("debug", t.getMessage());
+            }
+        });
+    }
+
     public void backToHome(){
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("UserID", UserID);
@@ -100,4 +130,5 @@ public class ChangeStatus extends AppCompatActivity {
     private void sickToast(){
         Toast.makeText(this, "You are sick, but not confirmed with corona", Toast.LENGTH_SHORT).show();
     }
+    
 }

@@ -10,6 +10,9 @@ public class setStatus {
     @SerializedName("infected")
     private boolean infected;
 
+    @SerializedName("unconfirmed_infected")
+    private boolean unconfirmed_infected;
+
     @SerializedName("interactions")
     public ArrayList<Interactions> interactions;
 }
