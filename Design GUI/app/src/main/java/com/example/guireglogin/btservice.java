@@ -401,8 +401,8 @@ public class btservice extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Channel")
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
 
-                //Fredrikusan ändra här*********************************************************
-                .setContentText("Someone you encountered has have tested positve for COVID-19");
+                //Fredrikusan ändra här*********************************************************Someone you encountered has have tested positve for COVID-19
+                .setContentText(getResources().getString(R.string.encounterpositive));
                 //******************************************************************************
 
         Intent notificationIntent = new Intent(this, HomeActivity.class);
@@ -431,8 +431,8 @@ public class btservice extends Service {
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
 
 
-                //Fredrikusan ändra här***************************************************
-                .setContentText("Someone you encountered have symptoms for COVID-19");
+                //Fredrikusan ändra här***************************************************Someone you encountered have symptoms for COVID-19
+                .setContentText(getResources().getString(R.string.encountersymptoms));
                 //*************************************************************************
 
 
