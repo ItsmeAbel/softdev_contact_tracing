@@ -21,13 +21,25 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="120dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button"
-        android:text="@string/sick_status"
+        android:text="@string/CoronaPositive"
         android:textColor="#FFF"
         android:textSize="18dp" />
 
+
+    <Button
+        android:id="@+id/symptoms_status"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
+        android:text="@string/symptoms"
+        android:textColor="#FFF"
+        android:textSize="18dp" />
 
     
 </LinearLayout>

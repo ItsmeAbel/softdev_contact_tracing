@@ -42,4 +42,6 @@
     <string name="sick_status">Severely sick</string>
     <string name="Interactdash">Interactions</string>
     <string name="interactppl">The number of people you have interacted with:</string>
+    <string name="CoronaPositive">COVID-19 Positive</string>
+    <string name="symptoms">COVID-19 Symptomous</string>
 </resources>

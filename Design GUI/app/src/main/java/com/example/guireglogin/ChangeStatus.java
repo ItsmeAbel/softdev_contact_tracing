@@ -24,6 +24,7 @@ public class ChangeStatus extends AppCompatActivity {
     private Button status_close;
     private Button healthyStatus;
     private Button sickStatus;
+    private Button symptomsStatus;
     private String token;
     private String UserID;
     private boolean healthBool;
@@ -47,7 +48,22 @@ public class ChangeStatus extends AppCompatActivity {
             }
         });
 
-        //Sick Button
+        //Symptoms Button (COVID-19 SYMPTOMS BUTTON)
+        symptomsStatus = (Button) findViewById(R.id.symptoms_status);
+        symptomsStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //
+                // ERIK DO YOUR THING       ( Y )
+                //                         (^__^ )
+                //                         /     \
+                //                        |_     _|
+                //                       (**)  (**)
+
+            }
+        });
+
+        //Sick Button (COVID-19 POSITIVE BUTTON)
         sickStatus = (Button) findViewById(R.id.sick_status);
         sickStatus.setOnClickListener(new View.OnClickListener() {
             @Override
