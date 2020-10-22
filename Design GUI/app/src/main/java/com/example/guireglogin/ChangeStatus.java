@@ -53,13 +53,9 @@ public class ChangeStatus extends AppCompatActivity {
         symptomsStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
-                // ERIK DO YOUR THING       ( Y )
-                //                         (^__^ )
-                //                         /     \
-                //                        |_     _|
-                //                       (**)  (**)
-
+                setSymptomious(token);
+                symptomiousToast();
+                backToHome();
             }
         });
 
@@ -144,7 +140,11 @@ public class ChangeStatus extends AppCompatActivity {
     }
 
     private void sickToast(){
-        Toast.makeText(this, "You are sick, but not confirmed with corona", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "You are COVID-19 positive", Toast.LENGTH_SHORT).show();
     }
-    
+
+    private void symptomiousToast(){
+        Toast.makeText(this, "You have have got COVID-19 symptoms", Toast.LENGTH_SHORT).show();
+    }
+
 }

@@ -319,8 +319,11 @@ public class btservice extends Service {
                 i++;
 
             }
-            pushInteractoins();
-
+            if(!temp.isEmpty()) {
+                System.out.println("In PushInteractions");
+                pushInteractoins();
+            }
+            System.out.println("Temp is empty");
         }
     }
 
@@ -343,11 +346,15 @@ public class btservice extends Service {
                 }
                 Log.d(TAG, "getStatus: Code: " + response.code() + "\n");
                 statusValues GETValues = response.body();
-                System.out.println(GETValues.contact);
+                System.out.println("I am positive " + GETValues.contact);
                 if(GETValues.contact== true){
                     NotificationFunc();
                 }
-
+                System.out.println("I am symptomious " + GETValues.unconfirmed_contact);
+                if(GETValues.unconfirmed_contact== true){
+                    NotificationFunc2();
+                }
+                
             }
 
             @Override
@@ -393,7 +400,7 @@ public class btservice extends Service {
         notificationChannel();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Channel")
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
-                .setContentText("Someone you encountered has been affected by Corona");
+                .setContentText("Someone you encountered has have tested positve for COVID-19");
 
         Intent notificationIntent = new Intent(this, HomeActivity.class);
         PendingIntent contextIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -404,16 +411,38 @@ public class btservice extends Service {
     }
 
     private void notificationChannel(){
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Corona channel";
             String description = "Corona channel";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("Channel", name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void NotificationFunc2(){
+        notificationChannel2();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Channel")
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setContentText("Someone you encountered have symptoms for COVID-19");
+
+        Intent notificationIntent = new Intent(this, HomeActivity.class);
+        PendingIntent contextIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contextIntent);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+    }
+
+    private void notificationChannel2(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Corona channel";
+            String description = "Corona channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("Channel", name, importance);
+            channel.setDescription(description);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }

@@ -10,4 +10,7 @@ public class statusValues {
     @SerializedName("identifier")
     public String identifier;
 
+    @SerializedName("unconfirmed_contact")
+    public boolean unconfirmed_contact;
+
 }
