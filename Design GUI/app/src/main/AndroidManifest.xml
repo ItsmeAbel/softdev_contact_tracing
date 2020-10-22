@@ -15,8 +15,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +25,8 @@
         android:roundIcon="@mipmap/virus"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".BluetoothActivity"></activity>
+        <activity android:name=".InteractionsDashboard"></activity>
+        <activity android:name=".BluetoothActivity" />
         <activity android:name=".ChangeStatus" />
         <activity android:name=".FriendsActivity" />
         <activity
@@ -50,7 +51,7 @@
         <activity android:name=".regactivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".loginactivity" />
-        <activity android:name=".Real_Time_Data_Dashboard"/>
+        <activity android:name=".Real_Time_Data_Dashboard" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

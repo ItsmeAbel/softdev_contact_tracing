@@ -173,6 +173,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 initLogOut();
                 break;
 
+            case R.id.Interactions:
+                initInteractions();
+                break;
+
             case R.id.friends:
                 initFriends();
                 break;
@@ -211,6 +215,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         data.putString("Token", token);
         intent.putExtras(data);
         startService(intent);
+    }
+
+    public void initInteractions(){
+        Intent intent = new Intent(HomeActivity.this, InteractionsDashboard.class);
+        intent.putExtra("UserID", UserID);
+        intent.putExtra("Token", token);
+        startActivity(intent);
     }
 
     public void initMaps(){

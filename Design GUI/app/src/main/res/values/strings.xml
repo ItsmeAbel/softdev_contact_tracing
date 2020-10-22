@@ -40,4 +40,6 @@
     <string name="savemsg">Save your ICE message</string>
     <string name="dont_match">The password fields do not match</string>
     <string name="sick_status">Severely sick</string>
+    <string name="Interactdash">Interactions</string>
+    <string name="interactppl">The number of people you have interacted with:</string>
 </resources>

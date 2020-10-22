@@ -66,11 +66,12 @@ public class btservice extends Service {
     private BluetoothLeAdvertiser mBluetoothAdvertiser;
     private ArrayList<ScanFilter> filterlista;
     private ArrayList<String> addresslist;
+    private ArrayList<Long> idlist;
     private ArrayList<String> lastchecklist;
     private List<ParcelUuid> uuid_list;
     private ArrayList<String> interactionsList;
     public int NumberOfInteractions = 0;
-    private String ett, tva;
+    private String temp, reverstemp;
 
 
     @Override
@@ -119,7 +120,7 @@ public class btservice extends Service {
 
         lastchecklist = new ArrayList<String>();
         addresslist = new ArrayList<String>();
-
+        idlist = new ArrayList<Long>();
 
         Bundle data = intent.getExtras();
         if(data == null){
@@ -130,17 +131,11 @@ public class btservice extends Service {
             userid = (String) data.get("UserID");
             token = (String) data.get("Token");
         }
-        String reversid = new StringBuilder(userid).reverse().toString();
+        String reverseid = new StringBuilder(userid).reverse().toString();
 
-        MSB = reversid + LSB;
-
-        Log.e(TAG, MSB);
+        MSB = reverseid + LSB;
 
         tempuuid = ParcelUuid.fromString(MSB);
-
-        String one;
-        one = stringconverter(tempuuid.getUuid().toString());
-        Log.e("JAAAAAAAAAAAAAA", one);
 
         id = new UUID(tempuuid.getUuid().getMostSignificantBits(), uuidfilter.getUuid().getLeastSignificantBits()); //Our unik id combinde with an MSB of ah uuid together with our unik userID
         filterlista = new ArrayList<ScanFilter>();     //The list with our filters
@@ -240,15 +235,18 @@ public class btservice extends Service {
                 else {
                     get_uuid(result);
                     Log.i(TAG,String.valueOf(result.getRssi()));
+                    Log.i(TAG,String.valueOf(uuid.toString()));
                     if(uuid.getUuid().getLeastSignificantBits() == uuidfilter.getUuid().getLeastSignificantBits()
-                            && !addresslist.contains(uuid.getUuid().getMostSignificantBits()))
+                            && !idlist.contains(uuid.getUuid().getMostSignificantBits()))
 
                     {
-                        ett = uuid.getUuid().toString();
-                        tva = ett.substring(0,18);
-                        
-                        Log.i("SCANNAT ID", UserID);
-                        addresslist.add(UserID);
+
+                        temp = uuid.getUuid().toString();
+                        temp = temp.substring(0,18);
+                        reverstemp = new StringBuilder(temp).reverse().toString();
+                        Log.e("Borde funka", reverstemp);
+                        idlist.add(uuid.getUuid().getMostSignificantBits());
+                        addresslist.add(reverstemp);
                         Log.i("id",String.valueOf(addresslist));
                     }
                 }
