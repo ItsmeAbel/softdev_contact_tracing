@@ -71,6 +71,8 @@ public class btservice extends Service {
     private List<ParcelUuid> uuid_list;
     private ArrayList<String> interactionsList;
     public int NumberOfInteractions = 0;
+    public int ConfirmedInt = 0;
+    public int UnconfirmedInt = 0;
     private String tempstring, reverstemp;
 
 
@@ -301,7 +303,6 @@ public class btservice extends Service {
         return reversetemp;
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void domagic(){
         ArrayList<String> temp = new ArrayList<String>();
@@ -317,7 +318,6 @@ public class btservice extends Service {
                 interactionsList.add(temp.get(i));
                 NumberOfInteractions++;
                 i++;
-
             }
             if(!temp.isEmpty()) {
                 System.out.println("In PushInteractions");
@@ -347,9 +347,11 @@ public class btservice extends Service {
                 Log.d(TAG, "getStatus: Code: " + response.code() + "\n");
                 statusValues GETValues = response.body();
                 System.out.println("I am positive " + GETValues.contact);
-                System.out.println("Confirmed: " + GETValues.count_confirmed);
-                System.out.println("Unconfirmed: " + GETValues.count_unconfirmed);
-                System.out.println("Interactions: " + GETValues.total_interactions);
+
+                NumberOfInteractions = Integer.valueOf(GETValues.total_interactions);
+                ConfirmedInt = Integer.valueOf(GETValues.count_confirmed);
+                UnconfirmedInt = Integer.valueOf(GETValues.count_unconfirmed);
+
                 if(GETValues.contact== true){
                     NotificationFunc();
                 }
@@ -462,7 +464,6 @@ public class btservice extends Service {
     public void onDestroy(){
         domagic();
     }
-
 
     @Nullable
     @Override
