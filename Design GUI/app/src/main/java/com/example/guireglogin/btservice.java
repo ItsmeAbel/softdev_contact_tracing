@@ -71,7 +71,7 @@ public class btservice extends Service {
     private List<ParcelUuid> uuid_list;
     private ArrayList<String> interactionsList;
     public int NumberOfInteractions = 0;
-    private String temp, reverstemp;
+    private String tempstring, reverstemp;
 
 
     @Override
@@ -241,9 +241,9 @@ public class btservice extends Service {
 
                     {
 
-                        temp = uuid.getUuid().toString();
-                        temp = temp.substring(0,18);
-                        reverstemp = new StringBuilder(temp).reverse().toString();
+                        tempstring = uuid.getUuid().toString();
+                        tempstring = tempstring.substring(0,18);
+                        reverstemp = new StringBuilder(tempstring).reverse().toString();
                         Log.e("Borde funka", reverstemp);
                         idlist.add(uuid.getUuid().getMostSignificantBits());
                         addresslist.add(reverstemp);
@@ -301,16 +301,6 @@ public class btservice extends Service {
         return reversetemp;
     }
 
-
-
-
-
-
-
-    @Override
-    public void onDestroy(){
-
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void domagic(){
@@ -427,6 +417,12 @@ public class btservice extends Service {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onDestroy(){
+        domagic();
     }
 
 

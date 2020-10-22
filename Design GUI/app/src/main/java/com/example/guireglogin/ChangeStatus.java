@@ -43,10 +43,7 @@ public class ChangeStatus extends AppCompatActivity {
         status_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                intent.putExtra("UserID", UserID);
-                intent.putExtra("Token", token);
-                startActivity(intent);
+               backToHome();
             }
         });
 
@@ -56,6 +53,9 @@ public class ChangeStatus extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setSick(token);
+                sickToast();
+                backToHome();
+
             }
         });
     }
@@ -90,4 +90,14 @@ public class ChangeStatus extends AppCompatActivity {
         });
     }
 
+    public void backToHome(){
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("UserID", UserID);
+        intent.putExtra("Token", token);
+        startActivity(intent);
+    }
+
+    private void sickToast(){
+        Toast.makeText(this, "You are sick, but not confirmed with corona", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -77,7 +77,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         token = getIntent().getStringExtra("Token");
         Log.e("Debug","In HomeActvity " + token + "\n");
 
-        startService();
         toolbar = findViewById(R.id.toolbar);
         nav_view = findViewById(R.id.navigation_view);
         drawer = findViewById(R.id.drawer_layout);
@@ -207,16 +206,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    public void startService()
-    {
-        Intent intent = new Intent(this, btservice.class);
-        Bundle data = new Bundle();
-        data.putString("UserID", UserID);
-        data.putString("Token", token);
-        intent.putExtras(data);
-        startService(intent);
-    }
-
     public void initInteractions(){
         Intent intent = new Intent(HomeActivity.this, InteractionsDashboard.class);
         intent.putExtra("UserID", UserID);
@@ -271,6 +260,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Intent eintent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(eintent, BLUETOOTH_REQ_CODE);
             }
+            else if(bAdapter.isEnabled()){
+                startService();
+            }
         }
     }
 
@@ -290,10 +282,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void btOFF(){
-        if (bAdapter.isEnabled()){
-            bAdapter.disable(); //disable bluetooth
+            serviceOff();
             onOff.setChecked(false);    //make the swicth off
-        }
+
     }
+
+    public void startService()
+    {
+        Intent intent = new Intent(this, btservice.class);
+        Bundle data = new Bundle();
+        data.putString("UserID", UserID);
+        data.putString("Token", token);
+        intent.putExtras(data);
+        startService(intent);
+    }
+
+    public void serviceOff()
+    {
+        Intent intent = new Intent(this, btservice.class);
+        stopService(intent);
+    }
+
 
 }

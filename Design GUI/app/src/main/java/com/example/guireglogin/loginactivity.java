@@ -105,9 +105,6 @@ public class loginactivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void lostPass(){
-        Toast.makeText(this, "Placeholder toast for lost password", Toast.LENGTH_SHORT).show();
-    }
     private void openHomeActivity() {
 
         Intent intent = new Intent(this, HomeActivity.class);
@@ -141,6 +138,7 @@ public class loginactivity extends AppCompatActivity {
                 if(GETValues.contact==true){
                     NotificationFunc();
                 }
+                startService();
                 openHomeActivity();
                 Log.d(LOG_TAG, "Success GET\n");
                 Log.d(LOG_TAG, "ResponseID " + GETValues.identifier + "\n");
@@ -184,6 +182,15 @@ public class loginactivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+    public void startService()
+    {
+        Intent intent = new Intent(this, btservice.class);
+        Bundle data = new Bundle();
+        data.putString("UserID", UserID);
+        data.putString("Token", testToken);
+        intent.putExtras(data);
+        startService(intent);
     }
 
 }
