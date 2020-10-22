@@ -40,6 +40,51 @@
         android:layout_gravity="center"
         android:textSize="10pt"
         android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirmedcount"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="7pt"
+        android:layout_marginBottom="15dp"
+
+        />
+
+    <TextView
+        android:id="@+id/confirmedint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_gravity="center"
+        android:textSize="10pt"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unconfirmedcount"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="7pt"
+        android:layout_marginBottom="15dp"
+
+        />
+
+    <TextView
+        android:id="@+id/unconfirmedint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_gravity="center"
+        android:textSize="10pt"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
         />
 
     <Button
@@ -48,7 +93,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center|bottom"
         android:text="@string/done_key"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="100dp"
         android:textColor="#FFF"
         android:textSize="18dp"
         android:background="@drawable/button"

@@ -140,15 +140,15 @@ public class ChangeStatus extends AppCompatActivity {
     }
 
     private void sickToast(){
-        //Fredrikusan ändra här*******************************************************************
-        Toast.makeText(this, "You are COVID-19 positive", Toast.LENGTH_SHORT).show();
-        //Fredrikusan ändra här*******************************************************************
+        //You are COVID-19 positive
+        Toast.makeText(this, getResources().getString(R.string.covidpos), Toast.LENGTH_SHORT).show();
+
     }
 
     private void symptomiousToast(){
-        //Fredrikusan ändra här*******************************************************************
-        Toast.makeText(this, "You have have got COVID-19 symptoms", Toast.LENGTH_SHORT).show();
-        //Fredrikusan ändra här*******************************************************************
+        //You have got COVID-19 symptoms
+        Toast.makeText(this, getResources().getString(R.string.covidsympt), Toast.LENGTH_SHORT).show();
+
     }
 
 }
