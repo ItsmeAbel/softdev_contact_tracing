@@ -167,7 +167,7 @@ public class btservice extends Service {
                 .build();
         filterlista.add(sFilter);
         if(DEBUG){Log.i(TAG, "Buildning DONE!");}
-        
+
         //Creating our callbacks
         callbacks();
         //Start the scanning

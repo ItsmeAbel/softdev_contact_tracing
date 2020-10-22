@@ -58,7 +58,6 @@ public class ChangeStatus extends AppCompatActivity {
                 setSick(token);
             }
         });
-
     }
 
     private void setSick(String token){
