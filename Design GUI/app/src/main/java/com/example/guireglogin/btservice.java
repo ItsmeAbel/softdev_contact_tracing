@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -69,7 +70,9 @@ public class btservice extends Service {
     private ArrayList<String> lastchecklist;
     private List<ParcelUuid> uuid_list;
     private ArrayList<String> interactionsList;
+    public int NumberOfInteractions = 0;
     private String temp, reverstemp;
+
 
     @Override
     public void onCreate() {
@@ -134,14 +137,10 @@ public class btservice extends Service {
 
         tempuuid = ParcelUuid.fromString(MSB);
 
-        temp = tempuuid.toString();
-        temp = temp.substring(0,18);
-        reverstemp = new StringBuilder(temp).reverse().toString();
-        Log.e("Borde funka", reverstemp);
-
         id = new UUID(tempuuid.getUuid().getMostSignificantBits(), uuidfilter.getUuid().getLeastSignificantBits()); //Our unik id combinde with an MSB of ah uuid together with our unik userID
         filterlista = new ArrayList<ScanFilter>();     //The list with our filters
         addresslist = new ArrayList<String>();           //A list were we store all the people we have been nearby
+
 
         if(DEBUG){Log.i(TAG, "Buildning settings for advertiser...");}
         //Settings for the advertiser
@@ -241,6 +240,7 @@ public class btservice extends Service {
                             && !idlist.contains(uuid.getUuid().getMostSignificantBits()))
 
                     {
+
                         temp = uuid.getUuid().toString();
                         temp = temp.substring(0,18);
                         reverstemp = new StringBuilder(temp).reverse().toString();
@@ -277,7 +277,6 @@ public class btservice extends Service {
         if (DEBUG) {Log.i(TAG, "Scanning...");}
         //Start the scan
         mBluetoothLeScanner.startScan(filterlista, sSettings, scanCallback);
-        if (DEBUG) {Log.i(TAG, "Scanning DONE!");}
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -291,7 +290,22 @@ public class btservice extends Service {
     private void get_uuid(final ScanResult result){
         uuid_list = result.getScanRecord().getServiceUuids();
         uuid = uuid_list.get(UUID_INDEX);
+        Log.e(TAG, String.valueOf(uuid));
+        Log.e(TAG, String.valueOf(uuid.getUuid().getLeastSignificantBits()));
     }
+
+    public String stringconverter(String scanuuid){
+        String reversetemp, temp;
+        temp = scanuuid.substring(0,18);
+        reversetemp = new StringBuilder(temp).reverse().toString();
+        return reversetemp;
+    }
+
+
+
+
+
+
 
     @Override
     public void onDestroy(){
@@ -311,6 +325,7 @@ public class btservice extends Service {
             while (i < temp.size()){
 
                 interactionsList.add(temp.get(i));
+                NumberOfInteractions++;
                 i++;
 
             }
