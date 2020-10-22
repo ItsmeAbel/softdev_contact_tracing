@@ -65,9 +65,11 @@ public class btservice extends Service {
     private BluetoothLeAdvertiser mBluetoothAdvertiser;
     private ArrayList<ScanFilter> filterlista;
     private ArrayList<String> addresslist;
+    private ArrayList<Long> idlist;
     private ArrayList<String> lastchecklist;
     private List<ParcelUuid> uuid_list;
     private ArrayList<String> interactionsList;
+    private String temp, reverstemp;
 
     @Override
     public void onCreate() {
@@ -115,7 +117,7 @@ public class btservice extends Service {
 
         lastchecklist = new ArrayList<String>();
         addresslist = new ArrayList<String>();
-
+        idlist = new ArrayList<Long>();
 
         Bundle data = intent.getExtras();
         if(data == null){
@@ -126,11 +128,16 @@ public class btservice extends Service {
             userid = (String) data.get("UserID");
             token = (String) data.get("Token");
         }
+        String reverseid = new StringBuilder(userid).reverse().toString();
 
-
-        MSB = userid + LSB;
+        MSB = reverseid + LSB;
 
         tempuuid = ParcelUuid.fromString(MSB);
+
+        temp = tempuuid.toString();
+        temp = temp.substring(0,18);
+        reverstemp = new StringBuilder(temp).reverse().toString();
+        Log.e("Borde funka", reverstemp);
 
         id = new UUID(tempuuid.getUuid().getMostSignificantBits(), uuidfilter.getUuid().getLeastSignificantBits()); //Our unik id combinde with an MSB of ah uuid together with our unik userID
         filterlista = new ArrayList<ScanFilter>();     //The list with our filters
@@ -184,7 +191,7 @@ public class btservice extends Service {
                 if(DEBUG){Log.i(TAG,"Start scan");}
                 scanLeDevice();
 
-                handler.postDelayed(this, 300000);
+                handler.postDelayed(this, 10000);
             }
         };
         handler.post(runnable);
@@ -229,12 +236,18 @@ public class btservice extends Service {
                 else {
                     get_uuid(result);
                     Log.i(TAG,String.valueOf(result.getRssi()));
+                    Log.i(TAG,String.valueOf(uuid.toString()));
                     if(uuid.getUuid().getLeastSignificantBits() == uuidfilter.getUuid().getLeastSignificantBits()
-                            && !addresslist.contains(uuid.getUuid().getMostSignificantBits()))
+                            && !idlist.contains(uuid.getUuid().getMostSignificantBits()))
 
                     {
-                        addresslist.add(String.valueOf(uuid.getUuid().getMostSignificantBits()));
-                        Log.i("id",String.valueOf(uuid.getUuid().getMostSignificantBits()));
+                        temp = uuid.getUuid().toString();
+                        temp = temp.substring(0,18);
+                        reverstemp = new StringBuilder(temp).reverse().toString();
+                        Log.e("Borde funka", reverstemp);
+                        idlist.add(uuid.getUuid().getMostSignificantBits());
+                        addresslist.add(reverstemp);
+                        Log.i("id",String.valueOf(addresslist));
                     }
                 }
 
