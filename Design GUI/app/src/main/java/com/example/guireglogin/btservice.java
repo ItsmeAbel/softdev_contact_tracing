@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -68,6 +69,9 @@ public class btservice extends Service {
     private ArrayList<String> lastchecklist;
     private List<ParcelUuid> uuid_list;
     private ArrayList<String> interactionsList;
+    public int NumberOfInteractions = 0;
+    private String ett, tva;
+
 
     @Override
     public void onCreate() {
@@ -126,15 +130,22 @@ public class btservice extends Service {
             userid = (String) data.get("UserID");
             token = (String) data.get("Token");
         }
+        String reversid = new StringBuilder(userid).reverse().toString();
 
+        MSB = reversid + LSB;
 
-        MSB = userid + LSB;
+        Log.e(TAG, MSB);
 
         tempuuid = ParcelUuid.fromString(MSB);
+
+        String one;
+        one = stringconverter(tempuuid.getUuid().toString());
+        Log.e("JAAAAAAAAAAAAAA", one);
 
         id = new UUID(tempuuid.getUuid().getMostSignificantBits(), uuidfilter.getUuid().getLeastSignificantBits()); //Our unik id combinde with an MSB of ah uuid together with our unik userID
         filterlista = new ArrayList<ScanFilter>();     //The list with our filters
         addresslist = new ArrayList<String>();           //A list were we store all the people we have been nearby
+
 
         if(DEBUG){Log.i(TAG, "Buildning settings for advertiser...");}
         //Settings for the advertiser
@@ -184,7 +195,7 @@ public class btservice extends Service {
                 if(DEBUG){Log.i(TAG,"Start scan");}
                 scanLeDevice();
 
-                handler.postDelayed(this, 300000);
+                handler.postDelayed(this, 10000);
             }
         };
         handler.post(runnable);
@@ -233,8 +244,12 @@ public class btservice extends Service {
                             && !addresslist.contains(uuid.getUuid().getMostSignificantBits()))
 
                     {
-                        addresslist.add(String.valueOf(uuid.getUuid().getMostSignificantBits()));
-                        Log.i("id",String.valueOf(uuid.getUuid().getMostSignificantBits()));
+                        ett = uuid.getUuid().toString();
+                        tva = ett.substring(0,18);
+                        
+                        Log.i("SCANNAT ID", UserID);
+                        addresslist.add(UserID);
+                        Log.i("id",String.valueOf(addresslist));
                     }
                 }
 
@@ -264,7 +279,6 @@ public class btservice extends Service {
         if (DEBUG) {Log.i(TAG, "Scanning...");}
         //Start the scan
         mBluetoothLeScanner.startScan(filterlista, sSettings, scanCallback);
-        if (DEBUG) {Log.i(TAG, "Scanning DONE!");}
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -278,7 +292,22 @@ public class btservice extends Service {
     private void get_uuid(final ScanResult result){
         uuid_list = result.getScanRecord().getServiceUuids();
         uuid = uuid_list.get(UUID_INDEX);
+        Log.e(TAG, String.valueOf(uuid));
+        Log.e(TAG, String.valueOf(uuid.getUuid().getLeastSignificantBits()));
     }
+
+    public String stringconverter(String scanuuid){
+        String reversetemp, temp;
+        temp = scanuuid.substring(0,18);
+        reversetemp = new StringBuilder(temp).reverse().toString();
+        return reversetemp;
+    }
+
+
+
+
+
+
 
     @Override
     public void onDestroy(){
@@ -298,6 +327,7 @@ public class btservice extends Service {
             while (i < temp.size()){
 
                 interactionsList.add(temp.get(i));
+                NumberOfInteractions++;
                 i++;
 
             }
