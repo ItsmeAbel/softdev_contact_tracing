@@ -54,8 +54,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private NavigationView nav_view;
     private Button change_status;
+    private Button emergency;
     private String token;
     private String UserID;
+
 
     public ToggleButton onOff;
     private static final String TAG = "HomeActivity";
@@ -91,6 +93,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
+        //Emergency
+        emergency = (Button) findViewById(R.id.home_emergency);
+        emergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomeActivity.this, "SMS OK", Toast.LENGTH_SHORT).show();
+                initFriendswithEmergency();
+            }
+        });
 
         //Change Status Button
         change_status = (Button) findViewById(R.id.change_status);
@@ -226,6 +237,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Intent friendsIntent = new Intent(this, FriendsActivity.class);
         friendsIntent.putExtra("UserID", UserID);
         friendsIntent.putExtra("Token", token);
+        friendsIntent.putExtra("Emergencylock", false);
+        startActivity(friendsIntent);
+    }
+    public void initFriendswithEmergency(){
+        Intent friendsIntent = new Intent(this, FriendsActivity.class);
+        friendsIntent.putExtra("UserID", UserID);
+        friendsIntent.putExtra("Token", token);
+        friendsIntent.putExtra("Emergencylock", true);
         startActivity(friendsIntent);
     }
     public void initLang(){

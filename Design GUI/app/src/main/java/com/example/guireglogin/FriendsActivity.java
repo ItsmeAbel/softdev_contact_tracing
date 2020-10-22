@@ -44,6 +44,7 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
     private ListView listView;
     private String token;
     private String UserID;
+    private Boolean EmergencyLock;
 
     private ArrayList<FriendClass> list;
 
@@ -55,6 +56,7 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
+        EmergencyLock = getIntent().getBooleanExtra("Emergencylock", false);
         UserID = getIntent().getStringExtra("UserID");
         Log.e("Debug","In HomeActvity " + UserID + "\n");
         token = getIntent().getStringExtra("Token");
@@ -134,6 +136,11 @@ public class FriendsActivity extends AppCompatActivity implements AddFriend.AddF
         });
 
 
+        if(EmergencyLock == true){
+            custommessage = icemsg.getText().toString();
+            sendSms(emergency_numbers, custommessage);
+            Toast.makeText(FriendsActivity.this, "SMS OK", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
