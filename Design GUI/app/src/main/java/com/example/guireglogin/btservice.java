@@ -354,7 +354,7 @@ public class btservice extends Service {
                 if(GETValues.unconfirmed_contact== true){
                     NotificationFunc2();
                 }
-                
+
             }
 
             @Override
@@ -400,7 +400,10 @@ public class btservice extends Service {
         notificationChannel();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Channel")
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+
+                //Fredrikusan ändra här*********************************************************
                 .setContentText("Someone you encountered has have tested positve for COVID-19");
+                //******************************************************************************
 
         Intent notificationIntent = new Intent(this, HomeActivity.class);
         PendingIntent contextIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -426,7 +429,12 @@ public class btservice extends Service {
         notificationChannel2();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Channel")
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+
+
+                //Fredrikusan ändra här***************************************************
                 .setContentText("Someone you encountered have symptoms for COVID-19");
+                //*************************************************************************
+
 
         Intent notificationIntent = new Intent(this, HomeActivity.class);
         PendingIntent contextIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

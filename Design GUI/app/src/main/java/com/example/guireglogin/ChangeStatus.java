@@ -140,11 +140,15 @@ public class ChangeStatus extends AppCompatActivity {
     }
 
     private void sickToast(){
+        //Fredrikusan ändra här*******************************************************************
         Toast.makeText(this, "You are COVID-19 positive", Toast.LENGTH_SHORT).show();
+        //Fredrikusan ändra här*******************************************************************
     }
 
     private void symptomiousToast(){
+        //Fredrikusan ändra här*******************************************************************
         Toast.makeText(this, "You have have got COVID-19 symptoms", Toast.LENGTH_SHORT).show();
+        //Fredrikusan ändra här*******************************************************************
     }
 
 }
