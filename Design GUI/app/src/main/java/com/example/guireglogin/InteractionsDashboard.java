@@ -26,9 +26,9 @@ public class InteractionsDashboard extends AppCompatActivity {
     private TextView interactint;
     private TextView confirmedint;
     private TextView unconfirmedint;
-    private String NumberOfInteractions = "0";
-    private String ConfirmedInt = "0";
-    private String UnconfirmedInt = "0";
+    private String totalstring;
+    private String confirmedstring;
+    private String unconfirmedstring;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,16 +53,7 @@ public class InteractionsDashboard extends AppCompatActivity {
             }
         });
 
-
         //TÄNK PÅ ATT OM DU UPPDATERAR INNEHÅLLET AV TEXTVIEWSEN TROR JAG DU MÅSTE "INTENTA" OM INTERACTIONSDASHBOARD OCH GLÖM DÅ HELLER INTE USERID OCH TOKEN!!!
-        //Do your total cases int magic here:
-        interactint.setText(NumberOfInteractions);
-
-        //Do your confirmed cases int magic here:
-        confirmedint.setText(ConfirmedInt);
-
-        //Do your unconfirmed cases int magic here:
-        unconfirmedint.setText(UnconfirmedInt);
 
     }
 
@@ -95,13 +86,18 @@ public class InteractionsDashboard extends AppCompatActivity {
                 System.out.println("I am positive " + GETValues.contact);
 
                 //Här får vi värden
-                NumberOfInteractions = GETValues.total_interactions;
-                ConfirmedInt = GETValues.count_confirmed;
-                UnconfirmedInt = GETValues.count_unconfirmed;
+                totalstring = GETValues.total_interactions;
+                System.out.println("SNÄLLA STÅ INTE NULL:" + totalstring);
+                confirmedstring = GETValues.count_confirmed;
+                unconfirmedstring = GETValues.count_unconfirmed;
 
                 System.out.println("Confirmed: " + GETValues.count_confirmed);
                 System.out.println("Unconfirmed: " + GETValues.count_unconfirmed);
                 System.out.println("Interactions: " + GETValues.total_interactions);
+
+                interactint.setText(totalstring);
+                confirmedint.setText(confirmedstring);
+                unconfirmedint.setText(unconfirmedstring);
 
             }
 
@@ -111,6 +107,8 @@ public class InteractionsDashboard extends AppCompatActivity {
                 Log.d("debug", t.getMessage());
             }
         });
+
+
     }
 
 
