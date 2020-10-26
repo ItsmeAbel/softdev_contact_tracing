@@ -46,7 +46,7 @@
     <string name="symptoms">COVID-19 Symptomous</string>
     <string name="covidpos">You are COVID-19 positive</string>
     <string name="covidsympt">You have shown COVID-19 symptoms</string>
-    <string name="encounterpositive">Someone you encountered has tested positve for COVID-19</string>
+    <string name="encounterpositive">Someone you encountered is COVID-19 positive</string>
     <string name="encountersymptoms">Someone you encountered has shown symptoms for COVID-19</string>
     <string name="confirmedcount">Of those, confirmed COVID-19 cases:</string>
     <string name="unconfirmedcount">and unconfirmed COVID-19 cases:</string>

@@ -45,8 +45,8 @@
     <string name="symptoms">COVID-19 Symptom</string>
     <string name="covidpos">Du är COVID-19 positiv</string>
     <string name="covidsympt">Du har visat COVID-19 symptom</string>
-    <string name="encounterpositive">Någon du varit i kontakt med har testats positiv för COVID-19</string>
-    <string name="encountersymptoms">Npgon du varit i kontakt med har visat symptom för COVID-19</string>
+    <string name="encounterpositive">Någon du varit i kontakt med är COVID-19 positiv</string>
+    <string name="encountersymptoms">Någon du varit i kontakt med har visat symptom för COVID-19</string>
     <string name="confirmedcount">Av dem, bekräftade COVID-19 fall</string>
     <string name="unconfirmedcount">och obekräftade COVID-19 fall:</string>
 </resources>
