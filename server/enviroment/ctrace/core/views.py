@@ -50,9 +50,23 @@ class StatusView(APIView):
     def get(self, request):
         user = request.user
         profile = Profile.objects.filter(user=user)[0]
+        contact = profile.contact 
+        unconfirmed_contact = profile.unconfirmed_contact 
+        profile.contact = False
+        profile.unconfirmed_contact = False
+        profile.save()
+
+        count_confirmed, count_unconfirmed, count_interactions = profile.statistics()
+
+        print("they are {} ,{}, {}".format(count_confirmed, count_unconfirmed, count_interactions ))
         return Response(
                 {
-                    "contact": profile.contact,
+                    "contact": contact,
+                    "unconfirmed_contact": unconfirmed_contact,
+                    "identifier": profile.identifier,
+                    "count_confirmed": count_confirmed,
+                    "count_unconfirmed": count_unconfirmed,
+                    "total_interactions": count_interactions,
                     },
             status=status.HTTP_200_OK
         )
@@ -65,29 +79,36 @@ class StatusView(APIView):
         print("keys\n"+str(keys))
         if keys == []:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        """
         if 'set_identifier' in keys:
             profile.identifier = data['set_identifier']
             profile.save()
-        if 'infected' in keys and data['infected'] == 'True':
+        """
+        if 'infected' in keys and data['infected'] == 'true':
             # set user as infected
             # user can only set themselves as positive
             profile.set_infected()
             # go through all interactions and check for contact with infected
             profile.infection_check()
+        if 'unconfirmed_infected' in keys and data['unconfirmed_infected'] == 'true':
+            profile.set_unconfirmed_infected()
+            profile.unconfirmed_infection_check()
         if 'interactions' in keys:
             # create or update interactions in database
 
-            for contact in data['interactions']:
+            print("data is "+str(data['interactions']))
+            print("datalist is "+str(data.lists()))
+
+            for contact in data.getlist('interactions'):
                 # find user by uuid
-                query = Profile.objects.filter(identifier=contact["identifier"])
+                print("contact is " + contact)
+                print('-')
+                query = Profile.objects.filter(identifier=contact)
                 # todo check for earlier interactions instead of creating new ones
-                if len(query) > 1:
-                    print("WTF")
-                    continue
-                if len(query) == 0:
-                    continue
                 user1 = user
                 profile1 = profile
+                if len(query) == 0:
+                    continue
                 user2 = query[0].user
                 profile2 = Profile.objects.filter(user=user2)[0]
                 # first interaction between users
@@ -101,14 +122,16 @@ class StatusView(APIView):
                 inter_query2 = Interaction.objects.filter(user1=user2, user2=user1)
                 if len(inter_query1) == 1:
                     inter = inter_query1[0]
-                    inter.set_date(date=contact['date'])
+                    #inter.set_date(date=contact['date'])
+                    inter.set_date()
                 elif len(inter_query2) == 1:
                     inter = inter_query2[0]
-                    inter.set_date(date=contact['date'])
+                    #inter.set_date(date=contact['date'])
+                    inter.set_date()
                 else: 
                     # first time interacting, create new entry
-                    date = contact['date']
-                    Interaction.objects.create(user1=user, user2=user2, date=date)
+                    inter = Interaction.objects.create(user1=user, user2=user2)
+                    inter.set_date()
                     
 
         return Response(status=status.HTTP_202_ACCEPTED)

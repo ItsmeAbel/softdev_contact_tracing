@@ -51,7 +51,7 @@ from datetime import datetime
 class Interaction(models.Model):
     user1 = models.ForeignKey(User, related_name="user1", on_delete=models.CASCADE)
     user2 = models.ForeignKey(User, related_name="user2", on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(null=True)
 
     def set_date(self, date=None):
         """
@@ -74,10 +74,16 @@ User = get_user_model()
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     identifier = models.TextField(max_length=MAX_UUIDS_LEN, blank=True)
+    
     infected = models.BooleanField(default=False)
     infection_date = models.DateField(null=True, blank=True)
     contact = models.BooleanField(default=False)
     contact_date = models.DateField(null=True, blank=True)
+    
+    unconfirmed_infected = models.BooleanField(default=False)
+    unconfirmed_infection_date = models.DateField(null=True, blank=True)
+    unconfirmed_contact = models.BooleanField(default=False)
+    unconfirmed_contact_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.user.__str__()
@@ -91,6 +97,10 @@ class Profile(models.Model):
         if (self.infection_date - datetime.now()).days >= expiration_time:
             self.infected = False
             self.infection_date = None
+            self.save()
+        if (self.unconfirmed_infection_date - datetime.now()).days >= expiration_time:
+            self.unconfirmed_contact = False
+            self.unconfirmed_infection_date = None
             self.save()
     
     def set_infected(self, date=None):
@@ -129,14 +139,84 @@ class Profile(models.Model):
         spread_vector = Interaction.objects.filter(user1=self.user)
         for contaminated_interaction in spread_vector:
             contact_user = contaminated_interaction.user2
-            contact_user.set_contact()
+            contact_user_profile = Profile.objects.filter(user=contact_user)[0]
+            contact_user_profile.set_contact()
 
         spread_vector = Interaction.objects.filter(user2=self.user)
         for contaminated_interaction in spread_vector:
             contact_user = contaminated_interaction.user1
-            contact_user.set_contact()
+            contact_user_profile = Profile.objects.filter(user=contact_user)[0]
+            contact_user_profile.set_contact()
 
+    def set_unconfirmed_contact(self, date=None):
+        """
+        Sets Profile as having had unconfirmed_contact with an unconfirmed_contact user
+        Sets unconfirmed_contact date as current date if not specified
+        """
+        if date == None:
+            date = datetime.now()
+        else:
+            date = datetime.strptime(date, "%Y-%m-%d")
+        self.unconfirmed_contact = True
+        self.unconfirmed_contact_date = date
+        self.save()
     
+    def set_unconfirmed_infected(self, date=None):
+        """
+        Sets Profile as being unconfirmed_infected.
+        """
+        if date == None:
+            date = datetime.now()
+        else:
+            date = datetime.strptime(date, "%Y-%m-%d")
+        self.unconfirmed_infected = True
+        self.unconfirmed_infection_date = date
+        self.save()
+
+    def unconfirmed_infection_check(self):
+        """
+        Goes through all interactions and checks whether other have
+        interacted with unconfirmed_contact user. Sets the users as having had
+        unconfirmed_contact.
+        """
+        if not self.unconfirmed_infected: return
+        
+        spread_vector = Interaction.objects.filter(user1=self.user)
+        for contaminated_interaction in spread_vector:
+            unconfirmed_contact_user = contaminated_interaction.user2
+            unconfirmed_contact_user_profile = Profile.objects.filter(user=unconfirmed_contact_user)[0]
+            unconfirmed_contact_user_profile.set_unconfirmed_contact()
+
+        spread_vector = Interaction.objects.filter(user2=self.user)
+        for contaminated_interaction in spread_vector:
+            unconfirmed_contact_user = contaminated_interaction.user1
+            unconfirmed_contact_user_profile = Profile.objects.filter(user=unconfirmed_contact_user)[0]
+            unconfirmed_contact_user_profile.set_unconfirmed_contact()
+
+    def statistics(self):
+        # returns number of confirmed and unconfirmed contacts with infected
+        count_confirmed = 0
+        count_unconfirmed = 0
+        count_interactions = 0  
+
+        spread_vector = Interaction.objects.filter(user1=self.user)
+        count_interactions += len(spread_vector)
+        for contaminated_interaction in spread_vector:
+            contact_user = contaminated_interaction.user2
+            profi = Profile.objects.filter(user=contact_user)[0]
+            if profi.infected: count_confirmed += 1
+            if profi.unconfirmed_infected: count_unconfirmed += 1
+
+        spread_vector = Interaction.objects.filter(user2=self.user)
+        count_interactions += len(spread_vector)
+        for contaminated_interaction in spread_vector:
+            contact_user = contaminated_interaction.user1
+            profi = Profile.objects.filter(user=contact_user)[0]
+            if profi.infected: count_confirmed += 1
+            if profi.unconfirmed_infected: count_unconfirmed += 1
+
+        return count_confirmed, count_unconfirmed, count_interactions
+             
 
 
 
