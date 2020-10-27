@@ -47,6 +47,7 @@ public class DataParser {
         return googlePlaceMap;
 
     }
+
     private List<HashMap<String, String>> getPlaces(JSONArray jsonArray)
     {
         int count = jsonArray.length();
@@ -78,6 +79,50 @@ public class DataParser {
             e.printStackTrace();
         }
         return getPlaces(jsonArray);
+    }
+
+
+
+    public String[] parseDirections(String jsonData)
+    {
+        JSONArray jsonArray = null;
+        JSONObject jsonObject;
+
+        try {
+            jsonObject = new JSONObject(jsonData);
+            jsonArray = jsonObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return getPaths(jsonArray);
+    }
+
+    public String[] getPaths(JSONArray googleStepsJson )
+    {
+        int count = googleStepsJson.length();
+        String[] polyLines = new String[count];
+
+        for(int i = 0;i<count;i++)
+        {
+            try {
+                polyLines[i] = getPath(googleStepsJson.getJSONObject(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return polyLines;
+    }
+
+    public String getPath(JSONObject googlePathJson)
+    {
+        String polyLine = "";
+        try {
+            polyLine = googlePathJson.getJSONObject("polyline").getString("points");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return polyLine;
     }
 }
 

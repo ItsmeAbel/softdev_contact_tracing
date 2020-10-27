@@ -10,11 +10,7 @@
             android:icon="@drawable/ic_language"
             android:title="@string/Change_language"
             app:showAsAction="always" />
-        <item
-            android:id="@+id/my_info"
-            android:title="@string/my_info"
-            android:icon="@drawable/ic_baseline_face_24"
-            app:showAsAction="never" />
+
         <!--
         <item
             android:id="@+id/placeholder1"
@@ -32,6 +28,19 @@
             android:title="@string/friends"
             android:icon="@drawable/ic_baseline_people_outline_24"
             />
+
+        <item
+            android:id="@+id/Interactions"
+            android:title="@string/Interactdash"
+            android:icon="@drawable/ic_outline_compare_arrows_24"
+            />
+
+        <item
+            android:id="@+id/RTData"
+            android:title="@string/RTData"
+            android:icon="@drawable/ic_dashboard1"
+            />
+
 
         <item
             android:id="@+id/logout"

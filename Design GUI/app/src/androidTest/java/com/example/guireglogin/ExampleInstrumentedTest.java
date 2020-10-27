@@ -50,4 +50,5 @@ public class ExampleInstrumentedTest {
         scenario.launch(loginactivity.class);
         Intents.release();
     }
+
 }

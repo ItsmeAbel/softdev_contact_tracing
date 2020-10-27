@@ -30,4 +30,23 @@
     <string name="weaksymptoms">Svaga Symptom</string>
     <string name="strongsymptoms">Starka Symptom</string>
     <string name="extremesymptoms">Extremt Tillstånd</string>
+    <string name="apply_key">Verkställ</string>
+    <string name="language_settings">Språkinställningar</string>
+    <string name="Tracking">Spårning:</string>
+    <string name="RTData">RealtidsData</string>
+    <string name="icemsg">Ändra ditt ICE meddelande</string>
+    <string name="deletefriends">Radera dina vänner</string>
+    <string name="savemsg">Spara ditt ICE meddelande</string>
+    <string name="dont_match">Lösenords fälten matchar inte</string>
+    <string name="sick_status">Svårt sjuk</string>
+    <string name="Interactdash">Interaktioner</string>
+    <string name="interactppl">Antal personer du har interagerat med:</string>
+    <string name="CoronaPositive">COVID-19 Positiv</string>
+    <string name="symptoms">COVID-19 Symptom</string>
+    <string name="covidpos">Du är COVID-19 positiv</string>
+    <string name="covidsympt">Du har visat COVID-19 symptom</string>
+    <string name="encounterpositive">Någon du varit i kontakt med är COVID-19 positiv</string>
+    <string name="encountersymptoms">Någon du varit i kontakt med har visat symptom för COVID-19</string>
+    <string name="confirmedcount">Av dem, bekräftade COVID-19 fall</string>
+    <string name="unconfirmedcount">och obekräftade COVID-19 fall:</string>
 </resources>

@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:background="#FFF">
 
         <androidx.appcompat.widget.Toolbar
@@ -31,6 +31,28 @@
             android:layout_height="match_parent"
             >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center"
+                android:layout_marginTop="100dp"
+                android:text="@string/Tracking"
+                android:textColor="#E0BB00"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+
+            <ToggleButton
+                android:layout_marginTop="150dp"
+                android:id="@+id/TS"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="top|center"
+                android:background="@drawable/button"
+                android:text="@string/change_status"
+                android:textColor="#FFF"
+                android:textSize="18dp" />
+
             <Button
                 android:id="@+id/change_status"
                 android:layout_width="300dp"
@@ -41,7 +63,25 @@
                 android:background="@drawable/button"
                 android:text="@string/change_status"
                 android:textColor="#FFF"
+                android:textSize="18dp"
+                />
+
+
+            <Button
+                android:id="@+id/home_emergency"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="75dp"
+                android:background="@drawable/button"
+                android:text="@string/emergency"
+                android:textColor="#FFF"
                 android:textSize="18dp" />
+
+
+
+
         </FrameLayout>
 
         <ImageView
@@ -53,6 +93,7 @@
             android:layout_marginLeft="100dp"
             android:src="@drawable/virus"
             />
+
 
     </RelativeLayout>
 

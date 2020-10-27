@@ -52,25 +52,68 @@
             android:layout_height="wrap_content"
 
             />
-        -->
-    <Button
-        android:id="@+id/done_go_back"
+
+
+    <EditText
+        android:id="@+id/icemsg"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:text="@string/done_key"
-        android:layout_marginTop="10dp"
-        android:textColor="#FFF"
+        android:hint="@string/icemsg"
+        android:layout_marginTop="15dp"
+        android:textColorHint="#E0BB00"
+        android:background="@drawable/outline"
+        android:drawableLeft="@drawable/ic_outline_message_24"
+        android:drawablePadding="5dp"
+        android:padding="20dp"
         android:textSize="18dp"
-        android:background="@drawable/button"
+        android:inputType="textAutoComplete"
+        android:layout_marginBottom="15dp"
         />
+
+        <Button
+            android:id="@+id/savemsg"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/savemsg"
+            android:textColor="#FFF"
+            android:textSize="18dp"
+            android:background="@drawable/button"
+            android:layout_marginBottom="15dp"
+            />
+
+
         <Button
             android:id="@+id/emergency"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:text="@string/emergency"
-            android:layout_marginTop="10dp"
+            android:textColor="#FFF"
+            android:textSize="18dp"
+            android:background="@drawable/button"
+            android:layout_marginBottom="15dp"
+            />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/deletefriends"
+            android:textColor="#FFF"
+            android:textSize="18dp"
+            android:background="@drawable/button"
+            android:layout_marginBottom="15dp"
+            />
+
+        <Button
+            android:id="@+id/done_go_back"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/done_key"
             android:textColor="#FFF"
             android:textSize="18dp"
             android:background="@drawable/button"

@@ -6,50 +6,84 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.pm.PackageManager;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import com.example.guireglogin.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView nav_view;
-    //need i explain ^
     private Button change_status;
+    private Button emergency;
+    private String token;
+    private String UserID;
 
 
-
+    public ToggleButton onOff;
     private static final String TAG = "HomeActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
+    public static final int BLUETOOTH_REQ_CODE = 1;
+    final BluetoothAdapter bAdapter = BluetoothAdapter.getDefaultAdapter(); //bluetooth adapter
+    public int toggler = 0;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+        UserID = getIntent().getStringExtra("UserID");
+        Log.e("Debug","In HomeActvity " + UserID + "\n");
+        token = getIntent().getStringExtra("Token");
+        Log.e("Debug","In HomeActvity " + token + "\n");
+
         toolbar = findViewById(R.id.toolbar);
         nav_view = findViewById(R.id.navigation_view);
         drawer = findViewById(R.id.drawer_layout);
         nav_view.setNavigationItemSelectedListener(this);
+        onOff = findViewById(R.id.TS);
         //instansiearar allt som behövs instansiearas
         setSupportActionBar(toolbar);
         //om vi gör setSupportActionBar har vi en helt ny action bar som vi kommer ha mer kontroll över
@@ -58,6 +92,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+        //Emergency
+        emergency = (Button) findViewById(R.id.home_emergency);
+        emergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomeActivity.this, "SMS OK", Toast.LENGTH_SHORT).show();
+                initFriendswithEmergency();
+            }
+        });
 
         //Change Status Button
         change_status = (Button) findViewById(R.id.change_status);
@@ -70,11 +114,41 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
+
         //Close Status button
         //close_status = (Button) findViewById(R.id.status_close);
 
 
+        //if bluetooth is on, turn on the switch
+        if (!bAdapter.isEnabled()) {
+            // To set whether switch is on/off use:
+            onOff.setChecked(false);
+            toggler = 2;
+        } else {
+            // Bluetooth is enabled
+            onOff.setChecked(true);
+            toggler = 1;
+        }
 
+
+        onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+
+                    Toast.makeText(HomeActivity.this, "ON", Toast.LENGTH_SHORT).show();
+                    btON();
+                    toggler = 1;
+
+                }else {
+                    Toast.makeText(HomeActivity.this, "OFF", Toast.LENGTH_SHORT).show();
+                    btOFF();
+                    toggler = 2;
+
+                }
+            }
+        });
     }
 
     @Override
@@ -94,24 +168,35 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 //Toast.makeText(this, "you clicked language", Toast.LENGTH_LONG).show();
                 initLang();
                 break;
-            case R.id.my_info:
-                initMyInfo();
-                break;
             case R.id.maps_location:
-                if(isServiceOK()){
-                    initMaps();
+                if (toggler == 1){
+                    if(isServiceOK()){
+                        initMaps();
+                    }
+                    break;
+                }else{
+                    Toast.makeText(this, "You Need to turn Tracking On!", Toast.LENGTH_SHORT).show();
+                    break;
                 }
-                break;
             case R.id.logout:
                 Toast.makeText(this, "Logout Tost", Toast.LENGTH_SHORT).show();
                 initLogOut();
                 break;
+
+            case R.id.Interactions:
+                initInteractions();
+                break;
+
             case R.id.friends:
                 initFriends();
+                break;
+            case R.id.RTData:
+                initDashboard1();
                 break;
         }
         return true;
     }
+
 
     //CHECKS IF THE CORRECT GOOGLE PLAY SERVICES IS INSTALLED
     public boolean isServiceOK(){
@@ -132,33 +217,110 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    public void initMaps(){
-                Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
-                startActivity(intent);
-    }
-    public void initMyInfo(){
-            Intent infoIntent = new Intent(this, MyInfoActivity.class);
-            startActivity(infoIntent);
+    public void initInteractions(){
+        Intent intent = new Intent(HomeActivity.this, InteractionsDashboard.class);
+        intent.putExtra("UserID", UserID);
+        intent.putExtra("Token", token);
+        startActivity(intent);
     }
 
+    public void initMaps(){
+        Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+        startActivity(intent);
+    }
     public void initLogOut() {
-            Intent logoutIntent = new Intent(this, loginactivity.class);
-            startActivity(logoutIntent);
+        Intent logoutIntent = new Intent(this, loginactivity.class);
+        startActivity(logoutIntent);
     }
 
     public void initFriends(){
-            Intent friendsIntent = new Intent(this, FriendsActivity.class);
-            startActivity(friendsIntent);
+        Intent friendsIntent = new Intent(this, FriendsActivity.class);
+        friendsIntent.putExtra("UserID", UserID);
+        friendsIntent.putExtra("Token", token);
+        friendsIntent.putExtra("Emergencylock", false);
+        startActivity(friendsIntent);
+    }
+    public void initFriendswithEmergency(){
+        Intent friendsIntent = new Intent(this, FriendsActivity.class);
+        friendsIntent.putExtra("UserID", UserID);
+        friendsIntent.putExtra("Token", token);
+        friendsIntent.putExtra("Emergencylock", true);
+        startActivity(friendsIntent);
     }
     public void initLang(){
         Intent switchlangIntent = new Intent(this, LanguageActivity.class);
+        switchlangIntent.putExtra("UserID", UserID);
+        switchlangIntent.putExtra("Token", token);
         startActivity(switchlangIntent);
     }
 
     public void initStatusChange(){
 
         Intent statusIntent = new Intent(this, ChangeStatus.class);
+        statusIntent.putExtra("UserID", UserID);
+        statusIntent.putExtra("Token", token);
         startActivity(statusIntent);
 
     }
+
+    public void initDashboard1(){
+        Toast.makeText(HomeActivity.this,"To Real-Time Dashboard",Toast.LENGTH_SHORT).show();
+        Intent dashboard = new Intent(this,Real_Time_Data_Dashboard.class);
+        startActivity(dashboard);
+
+    }
+    public void btON(){
+        if(bAdapter == null)
+        {
+            Toast.makeText(HomeActivity.this,"Bluetooth Not Supported",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            if(!bAdapter.isEnabled()){
+                Intent eintent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(eintent, BLUETOOTH_REQ_CODE);
+            }
+            else if(bAdapter.isEnabled()){
+                startService();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            //Toast.makeText(HomeActivity.this,"Bluetooth Is ON",Toast.LENGTH_SHORT).show();
+            onOff.setChecked(true);
+
+        }else{
+            if(resultCode == RESULT_CANCELED){
+                //Toast.makeText(HomeActivity.this,"Bluetooth Is OFF",Toast.LENGTH_SHORT).show();
+                onOff.setChecked(false);
+            }
+        }
+    }
+
+    public void btOFF(){
+            serviceOff();
+            onOff.setChecked(false);    //make the swicth off
+
+    }
+
+    public void startService()
+    {
+        Intent intent = new Intent(this, btservice.class);
+        Bundle data = new Bundle();
+        data.putString("UserID", UserID);
+        data.putString("Token", token);
+        intent.putExtras(data);
+        startService(intent);
+    }
+
+    public void serviceOff()
+    {
+        Intent intent = new Intent(this, btservice.class);
+        stopService(intent);
+    }
+
+
 }

@@ -28,20 +28,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+        LocationListener,
+        GoogleMap.OnMarkerClickListener{
 
 
     private GoogleMap mMap;
     private GoogleApiClient client;
-    private LocationRequest locationRequest;
-    private Location lastLocation;
+
     private Marker currentLocationMarker;
     double latitude,longitude;
+    double goal_latitude, goal_longitude;
+    int checker;
 
-    public static final int REQUEST_LOCATION_CODE = 99;
+    private static final int REQUEST_LOCATION_CODE = 99;
 
 
     @Override
@@ -96,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             Toast.makeText(this, "Map Complete!", Toast.LENGTH_LONG).show();
         }
+
     }
 
     @Override
@@ -103,7 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        lastLocation = location;
+        //Location lastLocation = location;
 
         if(currentLocationMarker != null) {
             currentLocationMarker.remove();
@@ -115,8 +119,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.title("Current Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         currentLocationMarker = mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
+        mMap.setOnMarkerClickListener(this);
 
         if(client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
@@ -131,29 +135,61 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onClick(View v) {
 
-        Object dataTransfer[] = new Object[2];
+        Object[] dataTransfer = new Object[2];
         NearbyPlacesData getNearbyPlacesData = new NearbyPlacesData();
 
-        if(v.getId() == R.id.B_hospitals) {
+        if(v.getId() == R.id.hospitals) {
             mMap.clear();
             String hospital = "hospital";
             String url = getUrl(latitude, longitude, hospital);
             dataTransfer[0] = mMap;
             dataTransfer[1] = url;
 
-            getNearbyPlacesData.execute(dataTransfer);
-            Toast.makeText(MapsActivity.this, "Showing nearby hospitals", Toast.LENGTH_SHORT).show();
+            if(client == null){
+                Toast.makeText(MapsActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+
+            else {
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(MapsActivity.this, "Showing nearby hospitals", Toast.LENGTH_SHORT).show();
+
+            }
+            checker = 1;
         }
 
-        else if(v.getId() == R.id.B_pharmacies) {
+        else if(v.getId() == R.id.pharmacies) {
             mMap.clear();
             String pharmacy = "pharmacy";
             String url = getUrl(latitude, longitude, pharmacy);
             dataTransfer[0] = mMap;
             dataTransfer[1] = url;
 
-            getNearbyPlacesData.execute(dataTransfer);
-            Toast.makeText(MapsActivity.this, "Showing nearby pharmacies", Toast.LENGTH_SHORT).show();
+            if(client == null){
+                Toast.makeText(MapsActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+
+            else {
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(MapsActivity.this, "Showing nearby pharmacies", Toast.LENGTH_SHORT).show();
+            }
+            checker = 2;
+
+        }else if(v.getId() == R.id.clearmap){
+            mMap.clear();
+            if(checker == 1){
+                String hospital = "hospital";
+                String url = getUrl(latitude, longitude, hospital);
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
+                getNearbyPlacesData.execute(dataTransfer);
+            }else if (checker == 2){
+                String pharmacy = "pharmacy";
+                String url = getUrl(latitude, longitude, pharmacy);
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
+                getNearbyPlacesData.execute(dataTransfer);
+            }
+
         }
     }
 
@@ -171,10 +207,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return googlePlaceUrl.toString();
     }
 
+    private String getDirectionsUrl()
+    {
+        StringBuilder googleDirectionsUrl = new StringBuilder("https://maps.googleapis.com/maps/api/directions/json?");
+        googleDirectionsUrl.append("origin="+latitude+","+longitude);
+        googleDirectionsUrl.append("&destination="+goal_latitude+","+goal_longitude);
+        googleDirectionsUrl.append("&key=AIzaSyDls_AndhEOgEOCgIdXXvgwinUhAn8ez3E");
+
+        return googleDirectionsUrl.toString();
+
+    }
+
+
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        locationRequest = new LocationRequest();
+        LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(100);
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -200,6 +248,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void ShowDirections () {
+        Object[] dataTransfer;
+        dataTransfer = new Object[3];
+        String url = getDirectionsUrl();
+        GetDirections getDirectionsData = new GetDirections();
+        dataTransfer[0] = mMap;
+        dataTransfer[1] = url;
+        dataTransfer[2] = new LatLng(goal_latitude, goal_longitude);
+        getDirectionsData.execute(dataTransfer);
+    }
+
+
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -207,5 +268,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        goal_latitude = marker.getPosition().latitude;
+        goal_longitude =  marker.getPosition().longitude;
+        ShowDirections();
+        return false;
     }
 }

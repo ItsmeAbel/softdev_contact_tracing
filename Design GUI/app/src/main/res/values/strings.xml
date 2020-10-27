@@ -31,4 +31,23 @@
     <string name="weaksymptoms">Weak Symptoms</string>
     <string name="strongsymptoms">Strong Symptoms</string>
     <string name="extremesymptoms">Extreme Condition</string>
+    <string name="apply_key">Apply</string>
+    <string name="language_settings">Language settings</string>
+    <string name="Tracking">Tracking:</string>
+    <string name="RTData">Real-Time Data</string>
+    <string name="icemsg">Change your ICE message</string>
+    <string name="deletefriends">Delete your friends</string>
+    <string name="savemsg">Save your ICE message</string>
+    <string name="dont_match">The password fields do not match</string>
+    <string name="sick_status">Severely sick</string>
+    <string name="Interactdash">Interactions</string>
+    <string name="interactppl">The number of people you have interacted with:</string>
+    <string name="CoronaPositive">COVID-19 Positive</string>
+    <string name="symptoms">COVID-19 Symptomous</string>
+    <string name="covidpos">You are COVID-19 positive</string>
+    <string name="covidsympt">You have shown COVID-19 symptoms</string>
+    <string name="encounterpositive">Someone you encountered is COVID-19 positive</string>
+    <string name="encountersymptoms">Someone you encountered has shown symptoms for COVID-19</string>
+    <string name="confirmedcount">Of those, confirmed COVID-19 cases:</string>
+    <string name="unconfirmedcount">and unconfirmed COVID-19 cases:</string>
 </resources>
